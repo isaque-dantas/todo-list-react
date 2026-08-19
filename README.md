@@ -1,32 +1,32 @@
-# React + TypeScript + Vite
+# Lista de tarefas (to-do list) com React
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+O objetivo deste projeto é, por meio do desenvolvimento de uma lista de tarefas virtual, aplicar conceitos de formulários, validações e fluxos de dados, simulando um ambiente próximo do real.
 
-Currently, two official plugins are available:
+## Tecnologias utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React.
+- React Router.
+- React Hook Form.
+- Zod.
+- RadixUi.
+- Vite.
 
-## React Compiler
+## Principais funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Grupos de tarefas e, para cada um deles, tarefas.
+2. Possibilidade de marcar as atividades concluídas.
+3. Edição dinâmica das propriedades, sem necessidade de uma segunda tela.
+4. Validação automática de unicidade para nome do grupo de tarefas (`groups.[index].name`) e para o conteúdo da tarefa (`groups.[index].items.[index].content`).
+5. Mensagens de erro personalizadas que fazem sentido para o usuário.
+6. Sistema de foco automático quando o usuário adiciona uma tarefa ou um grupo de tarefas.
 
-## Expanding the Oxlint configuration
+## Instalação e uso
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Acesse pelo link: https://todo-list-hazel-five-25.vercel.app/.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+Se preferir, execute localmente. Para isso, você precisa do Node 22.0 ou superior.
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+1. Clone este repositório: `git clone https://github.com/isaque-dantas/todo-list-react`.
+2. Mude o diretório para o repositório: `cd todo-list-react`
+3. Instale as dependências: `npm i`
+4. Execute a aplicação: `npm run dev`

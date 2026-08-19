@@ -6,19 +6,13 @@ export function tasksFactory(): TasksWithDate {
     date: new Date(),
     groups: [
       {
-        name: 'Demandas da faculdade', items: [
-          {content: 'Fazer exercícios de Cálculo da seção 2.1', isDone: false},
-          {content: 'OA sobre equação do primeiro grau', isDone: true},
-          {content: 'Comprar 3kg de banana', isDone: true},
-          {content: 'Comprar 8kg de filé de peito de frango', isDone: false},
+        name: 'Trabalho', items: [
+          {content: 'Finalizar relatório pendente', isDone: false},
+          {content: 'Conversar equipe sobre novos fluxos', isDone: false},
         ]
       },
     ]
   }
-}
-
-export function getToday(date: Date): string {
-  return date.toLocaleDateString('pt-br')
 }
 
 export function taskGroupFactory(): TaskGroupData {
@@ -41,20 +35,12 @@ export function getTaskGroupSchema() {
       .string()
       .trim()
       .nonempty({message: "Insira um nome para o grupo de tarefas."})
-    // .refine(
-    //   s => !otherTaskGroupNames.includes(s),
-    //   {message: "Esse nome já está sendo usado em outro grupo!"}
-    // )
   )
 
   const taskItemContent = (
     z.string()
       .trim()
       .nonempty("Insira uma tarefa!")
-    // .refine(
-    //   s => taskItems.filter(t => t.content == s).length == 1,
-    //   {message: "Você já colocou essa tarefa."}
-    // )
   )
 
   return z.object({
@@ -68,4 +54,28 @@ export function getTaskGroupSchema() {
 
   })
     .required();
+}
+
+export function validateGroups(data: TaskGroupData[], ctx: z.RefinementCtx) {
+  data.forEach((group, groupIndex) => {
+    group.items.forEach((itemToValidate, itemIndex) => {
+      if (group.items.some((item, index) => itemIndex !== index && itemToValidate.content === item.content)) {
+        ctx.addIssue({
+          code: 'custom',
+          message: 'Essa tarefa já foi adicionada!',
+          path: [groupIndex, 'items', itemIndex, 'content'],
+        })
+      }
+    })
+
+    if (data.some(
+      (g, i: number) => groupIndex !== i && group.name === g.name
+    )) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'O nome desse grupo já está sendo utilizado!',
+        path: [groupIndex, 'name']
+      })
+    }
+  })
 }
