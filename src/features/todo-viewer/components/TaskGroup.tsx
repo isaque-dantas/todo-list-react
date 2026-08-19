@@ -1,9 +1,9 @@
-import {type FormProps, type TaskGroupData, type TaskItemData, type TasksWithDate} from "../types.ts";
+import {type TaskGroupData, type TaskItemData, type TasksWithDate} from "../types.ts";
 import TaskItem from "./TaskItem.tsx";
 import {
   useTaskGroupBeingEdited,
   useTaskGroupBeingEditedDispatch,
-} from "./tasksContext.ts";
+} from "../domain/tasksContext.ts";
 import {useState, type FocusEvent, type KeyboardEvent, useEffect} from "react";
 import {Button} from "@radix-ui/themes";
 import {Pencil1Icon, PlusIcon, TrashIcon} from "@radix-ui/react-icons";

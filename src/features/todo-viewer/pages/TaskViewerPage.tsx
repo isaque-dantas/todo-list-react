@@ -8,7 +8,6 @@ import {TaskGroupBeingEditedProvider} from "../components/TaskGroupBeingEditedPr
 import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
-import {useEffect} from "react";
 import {flushSync} from "react-dom";
 
 function validateGroups(data: TaskGroupData[], ctx: z.RefinementCtx) {
@@ -50,13 +49,6 @@ export function TaskViewerPage() {
     defaultValues: tasksFactory(),
     mode: 'onChange'
   })
-
-  // useEffect(() => {
-  //   methods.subscribe({
-  //     formState: {errors: true},
-  //     callback: ({errors}) => console.log('erros do form: ', errors)}
-  //   )
-  // }, []);
 
   function addTaskGroup() {
     const updatedGroups = [...methods.getValues('groups'), taskGroupFactory()]

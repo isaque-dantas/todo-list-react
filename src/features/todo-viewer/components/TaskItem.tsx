@@ -6,7 +6,6 @@ import {
 } from "react-hook-form";
 import {type KeyboardEvent, type FocusEvent, useMemo, useEffect} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
-import {flushSync} from "react-dom";
 
 interface Props {
     otherItems: TaskItemData[];

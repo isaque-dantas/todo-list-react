@@ -1,21 +1,18 @@
-import {TaskGroupEditingContext, TaskGroupEditingDispatchContext, useAreTaskGroupsValid} from "./tasksContext.ts";
+import {TaskGroupEditingContext, TaskGroupEditingDispatchContext} from "../domain/tasksContext.ts";
 import {type ReactNode, useReducer} from "react";
-import type {BooleanArray, TaskGroupBeingEdited} from "../types.ts";
+import type {TaskGroupBeingEdited} from "../types.ts";
 
 interface Props {
     children: ReactNode;
 }
 
-function taskGroupBeingEditedReducer(prevState: TaskGroupBeingEdited, newState: TaskGroupBeingEdited, areTaskGroupsValid: BooleanArray): TaskGroupBeingEdited {
-  console.log(areTaskGroupsValid)
-  if (areTaskGroupsValid.some(isValid => isValid === false)) return prevState;
+function taskGroupBeingEditedReducer(_: TaskGroupBeingEdited, newState: TaskGroupBeingEdited): TaskGroupBeingEdited {
   return newState;
 }
 
 export function TaskGroupBeingEditedProvider({children}: Props) {
-  const areTaskGroupsValid = useAreTaskGroupsValid()
   const [taskGroupBeingEdited, dispatchTaskGroupBeingEdited] = useReducer(
-    (prevState, newState): TaskGroupBeingEdited => taskGroupBeingEditedReducer(prevState, newState, areTaskGroupsValid),
+    (prevState, newState): TaskGroupBeingEdited => taskGroupBeingEditedReducer(prevState, newState),
     null
   )
 
