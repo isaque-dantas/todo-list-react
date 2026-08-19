@@ -1,0 +1,6 @@
+@import "@radix-ui/themes/styles.css";
+@import "tailwindcss";
+
+body {
+  font-family: Inter, Helvetica, sans-serif;
+}
