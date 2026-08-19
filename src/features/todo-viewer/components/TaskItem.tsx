@@ -1,107 +1,105 @@
 import type {TaskGroupData, TaskItemData, TasksWithDate} from "../types.ts";
 import {Button, Checkbox} from "@radix-ui/themes";
 import {
-    Controller,
-    type FieldErrors, useFormContext,
+  Controller,
+  type FieldErrors, useFormContext,
 } from "react-hook-form";
-import {type KeyboardEvent, type FocusEvent, useMemo, useEffect} from "react";
+import {type KeyboardEvent,useMemo, useEffect} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 
 interface Props {
-    otherItems: TaskItemData[];
-    onStartEditing: () => void;
-    onBlur: () => void;
-    isBeingEdited: boolean;
-    groupIndex: number;
-    index: number;
+  otherItems: TaskItemData[];
+  onStartEditing: () => void;
+  onBlur: () => void;
+  isBeingEdited: boolean;
+  groupIndex: number;
+  index: number;
 }
 
 export default function TaskItem({onStartEditing, groupIndex, index, isBeingEdited, onBlur}: Props) {
-    const {setFocus, getValues, subscribe, control, trigger, formState: {errors}, register, setValue} = useFormContext<TasksWithDate>();
+  const {setFocus, getValues, subscribe, control, trigger, formState: {errors}, register, setValue} = useFormContext<TasksWithDate>();
 
-    const taskId = useMemo(
-      () => `groups.${groupIndex}.items.${index}` as `groups.${number}.items.${number}`,
-      [groupIndex, index]
+  const taskId = useMemo(
+    () => `groups.${groupIndex}.items.${index}` as `groups.${number}.items.${number}`,
+    [groupIndex, index]
+  )
+
+  useEffect(() => {
+    subscribe({
+      name: `groups.${groupIndex}.items.${index}.content`,
+      formState: {values: true},
+      callback: () => trigger(`groups`).then(t => console.log(`validou taskItem ${t}`))
+    })
+  }, []);
+
+  function handleClick() {
+    onStartEditing()
+    setFocus(`${taskId}.content`)
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter') sendBlurEvent()
+  }
+
+  function sendBlurEvent() {
+    if (contentErrors) return;
+    onBlur()
+  }
+
+  function onDelete() {
+    const itemsId: `groups.${number}.items` = `groups.${groupIndex}.items`
+    onBlur()
+    setValue(
+      itemsId,
+      getValues(itemsId).filter((_, itemIndex) => itemIndex !== index)
     )
+  }
 
-    useEffect(() => {
-        subscribe({
-            name: `groups.${groupIndex}.items.${index}.content`,
-            formState: {values: true},
-            callback: () => trigger(`groups`).then(t => console.log(`validou taskItem ${t}`))
-        })
-    }, []);
+  const contentErrors = (errors?.groups?.at!(groupIndex) as FieldErrors<TaskGroupData> | undefined)?.items?.at!(index)?.content
+  let contentUserErrorMessage = null;
+  if (contentErrors) {
+    contentUserErrorMessage = <p className="text-base italic text-red-700 font-medium">{contentErrors.message}</p>
+  }
 
-    function handleClick() {
-        onStartEditing()
-        setFocus(`${taskId}.content`)
-    }
+  const shouldShowInput = isBeingEdited || contentErrors !== undefined
 
-    function handleKeyDown(event: KeyboardEvent) {
-        if (event.key === 'Enter') sendBlurEvent()
-    }
-
-    function handleBlur(e: FocusEvent<HTMLElement>) {
-        if (!e.currentTarget.contains(e.relatedTarget)) return sendBlurEvent();
-    }
-
-    function sendBlurEvent() {
-        if (contentErrors) return;
-        onBlur()
-    }
-
-    function onDelete() {
-        const itemsId: `groups.${number}.items` = `groups.${groupIndex}.items`
-        onBlur()
-        setValue(
-          itemsId,
-          getValues(itemsId).filter((_, itemIndex) => itemIndex !== index)
-        )
-    }
-
-    const contentErrors = (errors?.groups?.at!(groupIndex) as FieldErrors<TaskGroupData> | undefined)?.items?.at!(index)?.content
-    let contentUserErrorMessage = null;
-    if (contentErrors) {
-        contentUserErrorMessage = <p className="text-base italic text-red-700 font-medium">{contentErrors.message}</p>
-    }
-
-    const shouldShowInput = isBeingEdited || contentErrors !== undefined
-
-    return (
-      <li
-        onBlur={handleBlur}
-        className={"flex items-center" + (shouldShowInput ? " gap-3" : " gap-1")}>
-          <Controller
-            name={`${taskId}.isDone`}
-            control={control}
-            defaultValue={getValues(`${taskId}.isDone`)}
-            render={({ field: { value, onChange, onBlur, ref } }) => (
-              <Checkbox
-                checked={value}
-                onCheckedChange={onChange}
-                onBlur={onBlur}
-                ref={ref}
-              />
-            )}
+  return (
+    <li
+      onBlur={sendBlurEvent}
+      className={"flex items-center" + (shouldShowInput ? " gap-3" : " gap-1")}>
+      <Controller
+        name={`${taskId}.isDone`}
+        control={control}
+        defaultValue={getValues(`${taskId}.isDone`)}
+        render={({ field: { value, onChange, onBlur, ref } }) => (
+          <Checkbox
+            checked={value}
+            onCheckedChange={onChange}
+            onBlur={onBlur}
+            ref={ref}
           />
-          <div className={"flex flex-1 flex-col gap-1" }>
-              <article className={"flex items-center gap-4" + (shouldShowInput ? "" : " hidden")}>
-                  <input
-                    {...register(`${taskId}.content`)}
-                    onKeyDown={handleKeyDown}
-                    onFocus={onStartEditing}
-                    className={"flex-1 text-lg border border-slate-300 shadow-sm rounded-lg px-2 py-1" + (shouldShowInput ? "" : " hidden")}/>
-                  <Button onClick={onDelete} variant={"surface"} color={"ruby"}>Excluir<TrashIcon/></Button>
-              </article>
+        )}
+      />
+      <article className={"flex w-full items-center gap-4"}>
+        <div className={"flex flex-12 flex-col gap-1"}>
+          <input
+            {...register(`${taskId}.content`)}
+            onKeyDown={handleKeyDown}
+            onFocus={onStartEditing}
+            className={"text-lg border border-slate-300 shadow-sm rounded-lg px-2 py-1" + (shouldShowInput ? "" : " hidden")}/>
 
-              <p
-                className={"flex-1 px-2 py-1 text-lg" + (shouldShowInput ? " hidden" : "") + (getValues(`${taskId}.isDone`) ? " bg-green-50 rounded-lg" : "")}
-                onClick={handleClick}>
-                  {getValues(`${taskId}.content`)}
-              </p>
+          <p
+            className={"px-2 py-1 text-lg" + (shouldShowInput ? " hidden" : "") + (getValues(`${taskId}.isDone`) ? " bg-green-50 rounded-lg" : "")}
+            onClick={handleClick}>
+            {getValues(`${taskId}.content`)}
+          </p>
 
-              {contentUserErrorMessage}
-          </div>
-      </li>
-    )
+          {contentUserErrorMessage}
+        </div>
+        <div className={"flex-1"}>
+          <Button size={"1"} onClick={onDelete} variant={"surface"} color={"ruby"}>Excluir<TrashIcon/></Button>
+        </div>
+      </article>
+    </li>
+  )
 }

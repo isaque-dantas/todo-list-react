@@ -6,7 +6,7 @@ import {
 } from "../domain/tasksContext.ts";
 import {useState, type FocusEvent, type KeyboardEvent, useEffect} from "react";
 import {Button} from "@radix-ui/themes";
-import {Pencil1Icon, PlusIcon, TrashIcon} from "@radix-ui/react-icons";
+import {PlusIcon, TrashIcon} from "@radix-ui/react-icons";
 import {taskItemFactory} from "../domain/tasks.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
 import {flushSync} from "react-dom";
@@ -17,7 +17,6 @@ interface Props {
 }
 
 export function TaskGroup({index}: Props) {
-  // const areTaskGroupsValidDispatch = useAreTaskGroupsValidDispatch()
   const {setFocus, subscribe, setValue, trigger, getValues, formState: {errors}, watch, register, } = useFormContext<TasksWithDate>();
   const dispatch = useTaskGroupBeingEditedDispatch();
 
@@ -25,7 +24,7 @@ export function TaskGroup({index}: Props) {
     subscribe({
       name: `groups.${index}.name`,
       formState: {values: true},
-      callback: () => trigger(`groups`).then(t => console.log(`validou group ${t}`))
+      callback: () => trigger(`groups`)
     })
   }, []);
 
@@ -90,34 +89,37 @@ export function TaskGroup({index}: Props) {
 
   return (
     <article className={"flex flex-col gap-2"}>
-      <fieldset
-        className={"flex flex-col gap-1" + (groupBeingEdited === index || nameError ? "" : " hidden")}
-        onBlur={handleBlur}
-      >
-        <div className={"flex gap-2 items-center"}>
-          <input
-            {...register(`groups.${index}.name`)}
-            className="border-slate-300 border rounded-lg px-2 py-1 text-2xl flex-1"
-            onKeyDown={handleKeyDown}
-            onClick={startEditing}
-          />
-          <article className="max-w-40 cursor-pointer">
-            <Button onClick={onDelete} color="ruby" variant={"surface"}>Excluir<TrashIcon/></Button>
-          </article>
-        </div>
-        { userNameErrorMessage }
-      </fieldset>
+      <div className={"flex gap-4 items-center"}>
+        <fieldset
+          className={"flex flex-12 flex-col gap-1" + (groupBeingEdited === index || nameError ? "" : " hidden")}
+          onBlur={handleBlur}
+        >
+          <div className={"flex gap-2 items-center"}>
+            <input
+              {...register(`groups.${index}.name`)}
+              className="border-slate-300 border rounded-lg px-2 py-1 text-2xl flex-1"
+              onKeyDown={handleKeyDown}
+              onClick={startEditing}
+            />
+          </div>
+          { userNameErrorMessage }
+        </fieldset>
 
-      <article
-        className={"flex items-center gap-4 group cursor-pointer" + (groupBeingEdited === index || nameError ? " hidden" : "")}
-        onClick={startEditing}
-      >
-        <h3 className={"text-2xl italic font-medium"}>{getValues(`groups.${index}.name`)}</h3>
-        <div className="group-hover:scale-110 group-hover:text-slate-700 text-slate-300 transition-all flex gap-1 items-center">
-          <span className={"font-sm font-medium"}>Editar</span>
-          <Pencil1Icon className="group-hover:rotate-none rotate-90 transition-all"/>
-        </div>
-      </article>
+        <article
+          className={"flex flex-12 items-center gap-4 group cursor-pointer" + (groupBeingEdited === index || nameError ? " hidden" : "")}
+          onClick={startEditing}
+        >
+          <h3 className={"text-2xl italic font-medium"}>{getValues(`groups.${index}.name`)}</h3>
+        </article>
+
+        <article className="flex-1 flex gap-6 cursor-pointer">
+          {/*<Button className={"group"}>*/}
+          {/*  <span className={"font-sm font-medium"}>Editar</span>*/}
+          {/*  <Pencil1Icon className="group-hover:rotate-none rotate-90 transition-all"/>*/}
+          {/*</Button>*/}
+          <Button onClick={onDelete} color="ruby" variant={"surface"}>Excluir<TrashIcon/></Button>
+        </article>
+      </div>
 
       <div className={"w-full border-b border-slate-200 mb-4"}></div>
       <ul className={"flex flex-col gap-4"}>
