@@ -1,0 +1,6 @@
+{
+  $schema: "./node_modules/json-server/schema.json",
+  users: [{id: "1", name:  "Admin user", password: "admin", email:  "admin@email.com"}],
+  groups: [{id: "1", name: "Grupo de tarefas"}],
+  items: [{id: "1", content:  "Primeira tarefa", isDone: false, groupId: "1"}]
+}
