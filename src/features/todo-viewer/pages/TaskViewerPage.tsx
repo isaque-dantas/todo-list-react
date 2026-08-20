@@ -36,7 +36,7 @@ export function TaskViewerPage() {
   }
 
   return (
-    <main className={"max-w-2xl mx-auto py-16"}>
+    <main className={"max-w-2xl mx-auto"}>
       <h1 className={"text-4xl mb-10"}>
         Lista de tarefas de <Strong>{methods.getValues("date").toLocaleDateString('pt-br')}</Strong>
       </h1>

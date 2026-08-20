@@ -6,15 +6,20 @@ import './App.css'
 import {Theme} from "@radix-ui/themes";
 import {BrowserRouter, Route, Routes} from "react-router";
 import {TaskViewerPage} from "./features/todo-viewer/pages/TaskViewerPage.tsx";
+import {HeaderProvider} from "./shared/components/HeaderProvider.tsx";
+import {NotFoundPage} from "./shared/pages/NotFoundPage.tsx";
 
 export default function App() {
-    return (
-        <Theme>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<TaskViewerPage/>}/>
-                </Routes>
-            </BrowserRouter>
-        </Theme>
-    )
+  return (
+    <Theme>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<HeaderProvider/>}>
+            <Route index element={<TaskViewerPage/>}/>
+            <Route path="*" element={<NotFoundPage/>}></Route>
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Theme>
+  )
 }
