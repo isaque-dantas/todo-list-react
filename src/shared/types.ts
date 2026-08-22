@@ -9,11 +9,13 @@ export interface TaskGroupData {
     id: string;
     name: string;
     items: NestedTaskItemData[];
+    userId: string;
 }
 
 export interface TaskGroupToSend {
     id: string;
     name: string;
+    userId: string;
 }
 
 export interface NestedTaskItemData {
@@ -27,6 +29,7 @@ export interface TaskItemData {
     content: string;
     isDone: boolean;
     groupId: string;
+    userId: string;
 }
 
 export interface TaskItemToSend {
@@ -34,6 +37,7 @@ export interface TaskItemToSend {
     content: string;
     isDone: boolean;
     groupId: string;
+    userId: string;
 }
 
 export type TaskGroupBeingEdited = number | null;

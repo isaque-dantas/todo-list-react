@@ -1,5 +1,5 @@
-import type {LoginForm, User} from "../../../shared/types.ts";
-import {get} from "../../../shared/services/api-service.ts";
+import type {LoginForm, User} from "../types.ts";
+import {get} from "./api-service.ts";
 
 export async function login(form: LoginForm) {
   const users: User[] = await get(`users?email:eq=${form.email}&password:eq=${form.password}`)
@@ -9,6 +9,10 @@ export async function login(form: LoginForm) {
   localStorage.setItem('token', user.id)
 
   return null;
+}
+
+export function logout() {
+  localStorage.removeItem('token');
 }
 
 export function isAuthenticated(): boolean {
@@ -24,4 +28,8 @@ export function addAuthenticationToUrl(url: string): string {
 
   if (url.includes('?')) return url + '&userId=' + getToken();
   return url + '?userId=' + getToken();
+}
+export function addAuthenticationToBody(data: any): any {
+  if (!isAuthenticated()) return data;
+  return {...data, userId: getToken()}
 }

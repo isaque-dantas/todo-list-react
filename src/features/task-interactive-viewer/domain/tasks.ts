@@ -17,7 +17,8 @@ export function tasksFactory(): TasksWithDate {
         items: [
           {id: '', content: 'Finalizar relatório pendente', isDone: false},
           {id: '', content: 'Conversar equipe sobre novos fluxos', isDone: false},
-        ]
+        ],
+        userId: ''
       },
     ]
   }
@@ -27,7 +28,8 @@ export function taskGroupFactory(): TaskGroupData {
   return {
     id: '',
     name: '',
-    items: []
+    items: [],
+    userId: ''
   }
 }
 
@@ -35,6 +37,7 @@ export function taskGroupToSendFactory(): TaskGroupToSend {
   return {
     id: '',
     name: '',
+    userId: ''
   }
 }
 
@@ -51,7 +54,8 @@ export function taskItemFactory(groupId: string = ''): TaskItemToSend {
     id: '',
     content: '',
     isDone: false,
-    groupId: groupId
+    groupId: groupId,
+    userId: ''
   }
 }
 

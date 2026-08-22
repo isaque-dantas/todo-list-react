@@ -3,7 +3,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import type {LoginForm} from "../../../shared/types.ts";
 import {Button} from "@radix-ui/themes";
-import {login} from "../services/auth-service.ts";
+import {login} from "../../../shared/services/auth-service.ts";
 import {useNavigate} from "react-router";
 
 export function LoginPage() {

@@ -6,7 +6,8 @@ import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button, TextField} from "@radix-ui/themes";
 import {useNavigate, useSearchParams} from "react-router";
-import {taskGroupToSendFactory} from "../../todo-interactive-viewer/domain/tasks.ts";
+import {taskGroupToSendFactory} from "../../task-interactive-viewer/domain/tasks.ts";
+import {getToSend} from "../domain.ts";
 
 interface Props {
   onSubmit: (group: TaskGroupToSend) => void;
@@ -14,7 +15,7 @@ interface Props {
 }
 
 export function TaskGroupForm({onSubmit, defaultValues}: Props) {
-  const groups = useGroups();
+  const groups = useGroups()?.map(getToSend);
   const [addedGroups, _] = useState<TaskGroupToSend[]>([]);
   const [searchParams, __] = useSearchParams();
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
   const schema = z.object({
     id: z.string().optional(),
     name: z.string().nonempty("O nome do grupo não pode estar vazio.").trim(),
+    userId: z.any(),
   })
     .required()
     .superRefine((data, ctx) => {

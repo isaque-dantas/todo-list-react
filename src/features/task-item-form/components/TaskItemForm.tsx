@@ -1,7 +1,7 @@
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import type {TaskItemToSend} from "../../../shared/types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {taskItemFactory} from "../../todo-interactive-viewer/domain/tasks.ts";
+import {taskItemFactory} from "../../task-interactive-viewer/domain/tasks.ts";
 import {z} from "zod";
 import {useGroups, useItems} from "../../task-viewer/services/tasks.ts";
 import {Button, Checkbox, Spinner} from "@radix-ui/themes";
@@ -24,6 +24,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
     content: z.string().nonempty("O conteúdo da tarefa não pode estar vazio.").trim(),
     isDone: z.boolean(),
     groupId: z.string().nonempty("Você precisa escolher um grupo."),
+    userId: z.any(),
   })
     .required()
     .superRefine((data, ctx) => {

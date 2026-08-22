@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {addAuthenticationToUrl} from "../../features/user/services/auth-service.ts";
+import {addAuthenticationToBody, addAuthenticationToUrl} from "./auth-service.ts";
 
 const baseUrl = 'http://localhost:3000/'
 
@@ -16,8 +16,10 @@ export function get(url: string) {
 }
 
 export function post(url: string, data: any) {
+  data = addAuthenticationToBody(data)
+
   fetch(
-    baseUrl + addAuthenticationToUrl(url),
+    baseUrl + url,
     {
       method: "POST",
       headers: {"Content-Type": "application/json"},

@@ -5,7 +5,7 @@
 import './App.css'
 import {Theme} from "@radix-ui/themes";
 import {BrowserRouter, Route, Routes} from "react-router";
-import {TaskInteractiveViewerPage} from "./features/todo-interactive-viewer/pages/TaskInteractiveViewerPage.tsx";
+import {TaskInteractiveViewerPage} from "./features/task-interactive-viewer/pages/TaskInteractiveViewerPage.tsx";
 import {HeaderProvider} from "./shared/components/HeaderProvider.tsx";
 import {NotFoundPage} from "./shared/pages/NotFoundPage.tsx";
 import {TaskViewerPage} from "./features/task-viewer/pages/TaskViewerPage.tsx";
