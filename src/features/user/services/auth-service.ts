@@ -20,6 +20,8 @@ export function getToken(): string | null {
 }
 
 export function addAuthenticationToUrl(url: string): string {
+  if (!isAuthenticated()) return url
+
   if (url.includes('?')) return url + '&userId=' + getToken();
   return url + '?userId=' + getToken();
 }
