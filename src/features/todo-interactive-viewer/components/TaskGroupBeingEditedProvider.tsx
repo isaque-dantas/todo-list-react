@@ -1,6 +1,6 @@
 import {TaskGroupEditingContext, TaskGroupEditingDispatchContext} from "../domain/tasksContext.ts";
 import {type ReactNode, useReducer} from "react";
-import type {TaskGroupBeingEdited} from "../types.ts";
+import type {TaskGroupBeingEdited} from "../../../shared/types.ts";
 
 interface Props {
     children: ReactNode;

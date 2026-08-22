@@ -5,9 +5,14 @@
 import './App.css'
 import {Theme} from "@radix-ui/themes";
 import {BrowserRouter, Route, Routes} from "react-router";
-import {TaskViewerPage} from "./features/todo-viewer/pages/TaskViewerPage.tsx";
+import {TaskInteractiveViewerPage} from "./features/todo-interactive-viewer/pages/TaskInteractiveViewerPage.tsx";
 import {HeaderProvider} from "./shared/components/HeaderProvider.tsx";
 import {NotFoundPage} from "./shared/pages/NotFoundPage.tsx";
+import {TaskViewerPage} from "./features/task-viewer/pages/TaskViewerPage.tsx";
+import {TaskItemAdderPage} from "./features/task-item-form/pages/TaskItemAdderPage.tsx";
+import {TaskItemEditorPage} from "./features/task-item-form/pages/TaskItemEditorPage.tsx";
+import {TaskGroupAdderPage} from "./features/task-group-form/pages/TaskGroupAdderPage.tsx";
+import {TaskGroupEditorPage} from "./features/task-group-form/pages/TaskGroupEditorPage.tsx";
 
 export default function App() {
   return (
@@ -16,6 +21,14 @@ export default function App() {
         <Routes>
           <Route element={<HeaderProvider/>}>
             <Route index element={<TaskViewerPage/>}/>
+
+            <Route path="/tarefas/adicionar" element={<TaskItemAdderPage/>}/>
+            <Route path="/tarefas/:id/editar" element={<TaskItemEditorPage/>}></Route>
+
+            <Route path="/grupos/adicionar" element={<TaskGroupAdderPage/>}/>
+            <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}></Route>
+
+            <Route path="/ver-tarefas-interativas" element={<TaskInteractiveViewerPage/>}/>
             <Route path="*" element={<NotFoundPage/>}></Route>
           </Route>
         </Routes>

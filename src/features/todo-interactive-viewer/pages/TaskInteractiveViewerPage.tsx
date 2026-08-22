@@ -2,7 +2,7 @@ import {getTaskGroupSchema, taskGroupFactory, tasksFactory, validateGroups} from
 import {Strong} from "@radix-ui/themes";
 import {TaskGroupList} from "../components/TaskGroupList.tsx";
 import {AddTaskGroupButton} from "../components/AddTaskGroupButton.tsx";
-import type {TasksWithDate} from "../types.ts";
+import type {TasksWithDate} from "../../../shared/types.ts";
 import {TaskGroupBeingEditedProvider} from "../components/TaskGroupBeingEditedProvider.tsx";
 import {FormProvider, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -10,7 +10,7 @@ import {z} from "zod";
 import {flushSync} from "react-dom";
 
 
-export function TaskViewerPage() {
+export function TaskInteractiveViewerPage() {
   const groupSchema = getTaskGroupSchema()
 
   const schema = z.object({

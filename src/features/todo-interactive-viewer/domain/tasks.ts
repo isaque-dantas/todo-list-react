@@ -1,4 +1,10 @@
-import type {TaskGroupData, TaskItemData, TasksWithDate} from "../types.ts";
+import type {
+  TaskGroupData,
+  NestedTaskItemData,
+  TasksWithDate,
+  TaskItemToSend,
+  TaskGroupToSend
+} from "../../../shared/types.ts";
 import {z} from "zod";
 
 export function tasksFactory(): TasksWithDate {
@@ -6,9 +12,11 @@ export function tasksFactory(): TasksWithDate {
     date: new Date(),
     groups: [
       {
-        name: 'Trabalho', items: [
-          {content: 'Finalizar relatório pendente', isDone: false},
-          {content: 'Conversar equipe sobre novos fluxos', isDone: false},
+        id: '',
+        name: 'Trabalho',
+        items: [
+          {id: '', content: 'Finalizar relatório pendente', isDone: false},
+          {id: '', content: 'Conversar equipe sobre novos fluxos', isDone: false},
         ]
       },
     ]
@@ -17,15 +25,33 @@ export function tasksFactory(): TasksWithDate {
 
 export function taskGroupFactory(): TaskGroupData {
   return {
+    id: '',
     name: '',
     items: []
   }
 }
 
-export function taskItemFactory(): TaskItemData {
+export function taskGroupToSendFactory(): TaskGroupToSend {
   return {
+    id: '',
+    name: '',
+  }
+}
+
+export function nestedTaskItemFactory(): NestedTaskItemData {
+  return {
+    id: '',
     content: '',
     isDone: false
+  }
+}
+
+export function taskItemFactory(groupId: string = ''): TaskItemToSend {
+  return {
+    id: '',
+    content: '',
+    isDone: false,
+    groupId: groupId
   }
 }
 
@@ -44,14 +70,15 @@ export function getTaskGroupSchema() {
   )
 
   return z.object({
+    id: z.string(),
     name: groupName,
     items: z.array(
       z.object({
+        id: z.string(),
         content: taskItemContent,
         isDone: z.boolean()
       }).required()
     )
-
   })
     .required();
 }

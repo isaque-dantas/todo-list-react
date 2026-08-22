@@ -1,4 +1,4 @@
-import {type TaskGroupData, type TaskItemData, type TasksWithDate} from "../types.ts";
+import {type TaskGroupData, type NestedTaskItemData, type TasksWithDate} from "../../../shared/types.ts";
 import TaskItem from "./TaskItem.tsx";
 import {
   useTaskGroupBeingEdited,
@@ -7,7 +7,7 @@ import {
 import {useState, type FocusEvent, type KeyboardEvent, useEffect} from "react";
 import {Button} from "@radix-ui/themes";
 import {PlusIcon, TrashIcon} from "@radix-ui/react-icons";
-import {taskItemFactory} from "../domain/tasks.ts";
+import {nestedTaskItemFactory} from "../domain/tasks.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
 import {flushSync} from "react-dom";
 
@@ -64,7 +64,7 @@ export function TaskGroup({index}: Props) {
       `groups.${index}.items`,
       [
         ...getValues(`groups.${index}.items`),
-        taskItemFactory()
+        nestedTaskItemFactory()
       ]
     ))
 
@@ -75,7 +75,7 @@ export function TaskGroup({index}: Props) {
   }
 
   function canAddTaskItem(): boolean {
-    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupData> | undefined)?.items as FieldErrors<TaskItemData[]> | undefined
+    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupData> | undefined)?.items as FieldErrors<NestedTaskItemData[]> | undefined
     return taskItemErrors === undefined || taskItemErrors.every(error => error === undefined)
   }
 

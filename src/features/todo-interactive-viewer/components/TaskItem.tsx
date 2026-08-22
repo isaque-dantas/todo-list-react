@@ -1,4 +1,4 @@
-import type {TaskGroupData, TaskItemData, TasksWithDate} from "../types.ts";
+import type {TaskGroupData, NestedTaskItemData, TasksWithDate} from "../../../shared/types.ts";
 import {Button, Checkbox} from "@radix-ui/themes";
 import {
   Controller,
@@ -8,7 +8,7 @@ import {type KeyboardEvent,useMemo, useEffect} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 
 interface Props {
-  otherItems: TaskItemData[];
+  otherItems: NestedTaskItemData[];
   onStartEditing: () => void;
   onBlur: () => void;
   isBeingEdited: boolean;

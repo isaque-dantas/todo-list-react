@@ -1,4 +1,4 @@
-import type {TaskGroupData, TasksWithDate} from "../types.ts";
+import type {TaskGroupData, TasksWithDate} from "../../../shared/types.ts";
 import {TaskGroup} from "./TaskGroup.tsx";
 import {useFormContext} from "react-hook-form";
 

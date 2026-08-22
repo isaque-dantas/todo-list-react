@@ -6,7 +6,9 @@ export function Header() {
       <p className={"font-bold text-indigo-700 text-2xl"}>Lista de tarefas</p>
       <nav className={"flex gap-8 items-center"}>
         <NavOption to="/" label="Ver tarefas"/>
-        <NavOption to="/adicionar-tarefas" label="Adicionar tarefas"/>
+        <NavOption to="/tarefas/adicionar" label="Adicionar Tarefa"/>
+        <NavOption to="/grupos/adicionar" label="Adicionar Grupo"/>
+        <NavOption to="/ver-tarefas-interativas" label="Ver tarefas interativas"/>
         <NavOption to="/login" label="Fazer Login"/>
         <NavOption to="/cadastro" label="Cadastrar-se"/>
       </nav>

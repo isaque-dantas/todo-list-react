@@ -1,7 +1,7 @@
 import {Button} from "@radix-ui/themes";
 import {useTaskGroupBeingEditedDispatch} from "../domain/tasksContext.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
-import type {TaskGroupData, TasksWithDate} from "../types.ts";
+import type {TaskGroupData, TasksWithDate} from "../../../shared/types.ts";
 
 interface Props {
     addedTaskGroup: () => void;

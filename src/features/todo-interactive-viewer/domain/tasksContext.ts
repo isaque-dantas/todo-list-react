@@ -2,7 +2,7 @@ import {createContext, useContext} from "react";
 import type {
     TaskGroupBeingEdited,
     TaskGroupBeingEditedDispatch
-} from "../types.ts";
+} from "../../../shared/types.ts";
 
 export const TaskGroupEditingContext = createContext<TaskGroupBeingEdited>(null)
 export const TaskGroupEditingDispatchContext = createContext<TaskGroupBeingEditedDispatch>(null)
