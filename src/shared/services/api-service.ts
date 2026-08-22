@@ -1,18 +1,23 @@
 import {useEffect} from "react";
+import {addAuthenticationToUrl} from "../../features/user/services/auth-service.ts";
 
 const baseUrl = 'http://localhost:3000/'
 
 export function useGet(url: string, callback: (data: any) => void) {
-  useEffect(() => {
-    fetch(baseUrl + url)
-      .then((res) => res.json().then(callback))
-      .catch((err) => console.error(err));
-  }, [])
+  useEffect(() => { get(url).then(callback) }, [])
+}
+
+export function get(url: string) {
+  return fetch(
+    baseUrl + addAuthenticationToUrl(url)
+  )
+    .then((res) => res.json())
+    .catch((err) => console.error(err));
 }
 
 export function post(url: string, data: any) {
   fetch(
-    baseUrl + url,
+    baseUrl + addAuthenticationToUrl(url),
     {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -24,7 +29,7 @@ export function post(url: string, data: any) {
 
 export function put(url: string, data: any) {
   fetch(
-    baseUrl + url,
+    baseUrl + addAuthenticationToUrl(url),
     {
       method: "PUT",
       headers: {"Content-Type": "application/json"},
@@ -36,7 +41,7 @@ export function put(url: string, data: any) {
 
 export function remove(url: string) {
   fetch(
-    baseUrl + url,
+    baseUrl + addAuthenticationToUrl(url),
     { method: "DELETE" }
   )
     .catch((err) => console.error(err));

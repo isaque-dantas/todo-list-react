@@ -13,12 +13,15 @@ import {TaskItemAdderPage} from "./features/task-item-form/pages/TaskItemAdderPa
 import {TaskItemEditorPage} from "./features/task-item-form/pages/TaskItemEditorPage.tsx";
 import {TaskGroupAdderPage} from "./features/task-group-form/pages/TaskGroupAdderPage.tsx";
 import {TaskGroupEditorPage} from "./features/task-group-form/pages/TaskGroupEditorPage.tsx";
+import {LoginPage} from "./features/user/pages/LoginPage.tsx";
+import {SignUpPage} from "./features/user/pages/SignUpPage.tsx";
 
 export default function App() {
   return (
     <Theme>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginPage/>}/>
           <Route element={<HeaderProvider/>}>
             <Route index element={<TaskViewerPage/>}/>
 
@@ -27,6 +30,8 @@ export default function App() {
 
             <Route path="/grupos/adicionar" element={<TaskGroupAdderPage/>}/>
             <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}></Route>
+
+            <Route path="/cadastro" element={<SignUpPage/>}></Route>
 
             <Route path="/ver-tarefas-interativas" element={<TaskInteractiveViewerPage/>}/>
             <Route path="*" element={<NotFoundPage/>}></Route>

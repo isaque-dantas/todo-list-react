@@ -40,3 +40,19 @@ export type TaskGroupBeingEdited = number | null;
 export type TaskGroupBeingEditedDispatch = Dispatch<TaskGroupBeingEdited> | null
 
 export type BooleanArray = (boolean | null)[]
+
+export interface LoginForm {
+    email: string;
+    password: string;
+}
+
+export interface SignUpForm extends LoginForm {
+    name: string;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+}
