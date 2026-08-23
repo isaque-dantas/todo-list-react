@@ -5,6 +5,7 @@ import type {LoginForm} from "../../../shared/types.ts";
 import {Button} from "@radix-ui/themes";
 import {login} from "../../../shared/services/auth-service.ts";
 import {useNavigate} from "react-router";
+import {Link} from '@radix-ui/themes';
 
 export function LoginPage() {
   const schema = z.object({
@@ -78,6 +79,8 @@ export function LoginPage() {
               <p className="text-red-700 font-bold text-sm">{errors.password.message}</p>
           }
         </fieldset>
+
+        <p>Não possui conta? <Link onClick={() => navigate("/cadastro")}>Cadastre-se agora mesmo.</Link></p>
 
         <Button
           disabled={shouldDisableSubmit()}

@@ -50,8 +50,6 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
     mode: 'onBlur'
   })
 
-  // console.log('default!', defaultValues ?? taskItemFactory())
-
   async function handleClick(e: SubmitEvent) {
     e.preventDefault();
 
@@ -79,9 +77,9 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
   const groupIdErrorMessage = groupIdError ? <p className="font-medium text-sm text-red-700">{groupIdError.message}</p> : null;
 
   return (
-    <form onSubmit={handleClick} className="flex flex-col gap-8">
-      <article className="mt-8 flex gap-8 items-start">
-        <fieldset className="flex flex-3 flex-col gap-2 max-w-120">
+    <form onSubmit={handleClick}>
+      <article className="mt-8 flex flex-col gap-6 items-start mb-10">
+        <fieldset className="flex flex-3 flex-col gap-2 w-full max-w-120">
           <label htmlFor="content">Conteúdo da tarefa</label>
           <input
             id="content"
@@ -96,7 +94,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
           groups === null ?
             <p className="flex gap-2">Carregando... <Spinner/></p> :
 
-            <fieldset className="flex flex-1 flex-col gap-2 max-w-60">
+            <fieldset className="flex flex-1 flex-col gap-2 w-full max-w-80">
               <label htmlFor="groupId">Grupo de tarefas</label>
               <select
                 id="groupId"

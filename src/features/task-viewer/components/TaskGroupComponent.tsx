@@ -14,7 +14,7 @@ export function TaskGroupComponent({group, shouldShowEditBtn}: Props) {
 
   return (
     <article key={group.id}>
-      <div className="flex gap-10 items-center mb-6">
+      <div className="flex gap-4 md:gap-8 items-center mb-6">
         <h3 className="text-2xl font-bold">{group.name}</h3>
         {
           shouldShowEditBtn &&
@@ -25,10 +25,10 @@ export function TaskGroupComponent({group, shouldShowEditBtn}: Props) {
             </Button>
         }
       </div>
-      <ul className="grid grid-cols-3 gap-y-4 gap-x-10">
+      <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-y-4 gap-x-10">
         {
           group.items.map(
-            item => <TaskItemComponent item={item} shouldShowEditBtn={shouldShowEditBtn}/>
+            item => <TaskItemComponent key={item.id} item={item} shouldShowEditBtn={shouldShowEditBtn}/>
           )
         }
       </ul>
