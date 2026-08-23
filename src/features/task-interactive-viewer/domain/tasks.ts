@@ -1,9 +1,6 @@
 import type {
   TaskGroupData,
-  NestedTaskItemData,
   TasksWithDate,
-  TaskItemToSend,
-  TaskGroupToSend
 } from "../../../shared/types.ts";
 import {z} from "zod";
 
@@ -24,40 +21,6 @@ export function tasksFactory(): TasksWithDate {
   }
 }
 
-export function taskGroupFactory(): TaskGroupData {
-  return {
-    id: '',
-    name: '',
-    items: [],
-    userId: ''
-  }
-}
-
-export function taskGroupToSendFactory(): TaskGroupToSend {
-  return {
-    id: '',
-    name: '',
-    userId: ''
-  }
-}
-
-export function nestedTaskItemFactory(): NestedTaskItemData {
-  return {
-    id: '',
-    content: '',
-    isDone: false
-  }
-}
-
-export function taskItemFactory(groupId: string = ''): TaskItemToSend {
-  return {
-    id: '',
-    content: '',
-    isDone: false,
-    groupId: groupId,
-    userId: ''
-  }
-}
 
 export function getTaskGroupSchema() {
   const groupName = (

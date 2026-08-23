@@ -30,7 +30,7 @@ export default function TaskItem({onStartEditing, groupIndex, index, isBeingEdit
       formState: {values: true},
       callback: () => trigger(`groups`).then(t => console.log(`validou taskItem ${t}`))
     })
-  }, []);
+  }, [subscribe, index, groupIndex, trigger]);
 
   function handleClick() {
     onStartEditing()

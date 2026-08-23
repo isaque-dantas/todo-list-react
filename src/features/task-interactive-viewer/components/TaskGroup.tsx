@@ -7,7 +7,7 @@ import {
 import {useState, type FocusEvent, type KeyboardEvent, useEffect} from "react";
 import {Button} from "@radix-ui/themes";
 import {PlusIcon, TrashIcon} from "@radix-ui/react-icons";
-import {nestedTaskItemFactory} from "../domain/tasks.ts";
+import {nestedTaskItemFactory} from "../../../shared/domain.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
 import {flushSync} from "react-dom";
 
@@ -26,7 +26,7 @@ export function TaskGroup({index}: Props) {
       formState: {values: true},
       callback: () => trigger(`groups`)
     })
-  }, []);
+  }, [subscribe, index, trigger]);
 
   const groupBeingEdited = useTaskGroupBeingEdited()
   const groupBeingEditedDispatch = useTaskGroupBeingEditedDispatch()
