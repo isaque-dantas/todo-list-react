@@ -12,6 +12,8 @@ import {TaskGroupEditorPage} from "./features/task-group-form/pages/TaskGroupEdi
 import {LoginPage} from "./features/user/pages/LoginPage.tsx";
 import {SignUpPage} from "./features/user/pages/SignUpPage.tsx";
 import {AuthRequiredProvider} from "./shared/components/AuthRequiredProvider.tsx";
+import {ProfilePage} from "./features/user/pages/ProfilePage.tsx";
+import {EditProfilePage} from "./features/user/pages/EditProfilePage.tsx";
 
 export default function App() {
   return (
@@ -26,12 +28,14 @@ export default function App() {
               <Route index element={<TaskViewerPage/>}/>
 
               <Route path="/tarefas/adicionar" element={<TaskItemAdderPage/>}/>
-              <Route path="/tarefas/:id/editar" element={<TaskItemEditorPage/>}></Route>
+              <Route path="/tarefas/:id/editar" element={<TaskItemEditorPage/>}/>
 
               <Route path="/grupos/adicionar" element={<TaskGroupAdderPage/>}/>
-              <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}></Route>
+              <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}/>
 
-              {/*<Route path="/ver-tarefas-interativas" element={<TaskInteractiveViewerPage/>}/>*/}
+              <Route path="/perfil" element={<ProfilePage/>}/>
+              <Route path="/perfil/editar" element={<EditProfilePage/>}/>
+
               <Route path="*" element={<NotFoundPage/>}></Route>
             </Route>
           </Route>

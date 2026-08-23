@@ -1,18 +1,20 @@
 import {useState} from "react";
-import type {SignUpForm, User} from "../../../shared/types.ts";
+import type {UserToSend, User} from "../../../shared/types.ts";
 import {useGet} from "../../../shared/services/api-service.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {Button} from "@radix-ui/themes";
+import {userToSendFactory} from "../domain.ts";
 
 interface Props {
-  onSubmit: (data: SignUpForm) => unknown;
+  onSubmit: (data: UserToSend) => unknown;
+  defaultValues?: UserToSend
 }
 
-export function UserForm({onSubmit}: Props) {
+export function UserForm({onSubmit, defaultValues}: Props) {
   const [users, setUsers] = useState<User[] | null>(null);
-  useGet('users', setUsers);
+  useGet('users', setUsers, false);
 
   const schema = z.object({
     name: (
@@ -27,7 +29,19 @@ export function UserForm({onSubmit}: Props) {
         .nonempty("Você precisa inserir um e-mail.")
     )
       .refine(
-        value => users?.every(u => u.email !== value),
+        value => {
+          return (
+            users === null
+
+            ||
+
+            users
+              .filter(
+                u => defaultValues === undefined ||  u.email !== defaultValues.email
+              )
+              .every(u => u.email !== value)
+          )
+        } ,
         { message: "Esse e-mail já foi inserido!" }
       ),
 
@@ -38,8 +52,9 @@ export function UserForm({onSubmit}: Props) {
     )
   })
 
-  const {register, formState: {errors}, handleSubmit} = useForm<SignUpForm>({
+  const {register, formState: {errors}, handleSubmit} = useForm<UserToSend>({
     resolver: zodResolver(schema),
+    defaultValues: (defaultValues ?? userToSendFactory()),
     mode: 'onBlur'
   })
 
@@ -101,7 +116,7 @@ export function UserForm({onSubmit}: Props) {
         <Button
           disabled={shouldDisableSubmit()}
           size="3"
-          onClick={handleSubmit(onSubmit)}>Fazer cadastro</Button>
+          onClick={handleSubmit(onSubmit)}>Enviar informações</Button>
       </div>
     </article>
   )

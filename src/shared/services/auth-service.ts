@@ -1,5 +1,6 @@
 import type {LoginForm, User} from "../types.ts";
-import {get} from "./api-service.ts";
+import {get, useGet} from "./api-service.ts";
+import {useState} from "react";
 
 export async function login(form: LoginForm) {
   const users: User[] = await get(`users?email:eq=${form.email}&password:eq=${form.password}`)
@@ -25,11 +26,20 @@ export function getToken(): string | null {
 
 export function addAuthenticationToUrl(url: string): string {
   if (!isAuthenticated()) return url
+  const prefix = url.startsWith('users') ? 'id' : 'userId';
 
-  if (url.includes('?')) return url + '&userId=' + getToken();
-  return url + '?userId=' + getToken();
+  if (url.includes('?')) return url + `&${prefix}=` + getToken();
+  return url + `?${prefix}=` + getToken();
 }
 export function addAuthenticationToBody(data: any): any {
   if (!isAuthenticated()) return data;
   return {...data, userId: getToken()}
+}
+
+export function useAuthenticatedUser() {
+  if (!isAuthenticated()) return null;
+
+  const [users, setUsers] = useState<User[] | null>(null);
+  useGet('users', setUsers)
+  return users !== null ? users[0] : null
 }

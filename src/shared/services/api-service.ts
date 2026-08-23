@@ -3,13 +3,13 @@ import {addAuthenticationToBody, addAuthenticationToUrl} from "./auth-service.ts
 
 const baseUrl = 'http://localhost:3000/'
 
-export function useGet(url: string, callback: (data: any) => void) {
-  useEffect(() => { get(url).then(callback) }, [url, callback])
+export function useGet(url: string, callback: (data: any) => void, withAuthentication: boolean = true) {
+  useEffect(() => { get(url, withAuthentication).then(callback) }, [url, callback])
 }
 
-export function get(url: string) {
+export function get(url: string, withAuthentication: boolean = true) {
   return fetch(
-    baseUrl + addAuthenticationToUrl(url)
+    baseUrl + (withAuthentication ? addAuthenticationToUrl(url) : url)
   )
     .then((res) => res.json())
     .catch((err) => console.error(err));
@@ -29,9 +29,9 @@ export function post(url: string, data: any) {
     .catch((err) => console.error(err));
 }
 
-export function put(url: string, data: any) {
+export function put(url: string, data: any, withAuthentication: boolean = true) {
   fetch(
-    baseUrl + addAuthenticationToUrl(url),
+    baseUrl + (withAuthentication ? addAuthenticationToUrl(url) : url),
     {
       method: "PUT",
       headers: {"Content-Type": "application/json"},

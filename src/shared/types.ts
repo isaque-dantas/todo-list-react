@@ -50,7 +50,7 @@ export interface LoginForm {
     password: string;
 }
 
-export interface SignUpForm extends LoginForm {
+export interface UserToSend extends LoginForm {
     name: string;
 }
 
