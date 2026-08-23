@@ -4,7 +4,7 @@ import {addAuthenticationToBody, addAuthenticationToUrl} from "./auth-service.ts
 const baseUrl = 'http://localhost:3000/'
 
 export function useGet(url: string, callback: (data: any) => void) {
-  useEffect(() => { get(url).then(callback) }, [])
+  useEffect(() => { get(url).then(callback) }, [url, callback])
 }
 
 export function get(url: string) {

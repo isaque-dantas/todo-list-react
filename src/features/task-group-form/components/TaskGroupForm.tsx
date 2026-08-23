@@ -6,7 +6,7 @@ import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button, TextField} from "@radix-ui/themes";
 import {useNavigate, useSearchParams} from "react-router";
-import {taskGroupToSendFactory} from "../../task-interactive-viewer/domain/tasks.ts";
+import {taskGroupToSendFactory} from "../../../shared/domain.ts";
 import {getToSend} from "../domain.ts";
 
 interface Props {

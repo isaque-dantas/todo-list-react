@@ -1,7 +1,7 @@
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import type {TaskItemToSend} from "../../../shared/types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {taskItemFactory} from "../../task-interactive-viewer/domain/tasks.ts";
+import {taskItemFactory} from "../../../shared/domain.ts";
 import {z} from "zod";
 import {useGroups, useItems} from "../../task-viewer/services/tasks.ts";
 import {Button, Checkbox, Spinner} from "@radix-ui/themes";

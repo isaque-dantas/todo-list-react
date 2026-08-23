@@ -18,7 +18,7 @@ export function Header() {
         <NavOption to="/" label="Ver tarefas"/>
         <NavOption to="/tarefas/adicionar" label="Adicionar Tarefa"/>
         <NavOption to="/grupos/adicionar" label="Adicionar Grupo"/>
-        <NavOption to="/ver-tarefas-interativas" label="Ver tarefas interativas"/>
+        {/*<NavOption to="/ver-tarefas-interativas" label="Ver tarefas interativas"/>*/}
         {
           isAuthenticated() ?
             <>
