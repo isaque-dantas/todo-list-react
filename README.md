@@ -24,9 +24,17 @@ O objetivo deste projeto é, por meio do desenvolvimento de uma lista de tarefas
 
 Acesse pelo link: https://todo-list-hazel-five-25.vercel.app/.
 
-Se preferir, execute localmente. Para isso, você precisa do Node 22.0 ou superior.
+É preciso executar a API `json-server` localmente. O arquivo `/db.example.json5` contém entidades que servem como exemplo.
+Siga os passos:
 
 1. Clone este repositório: `git clone https://github.com/isaque-dantas/todo-list-react`.
-2. Mude o diretório para o repositório: `cd todo-list-react`
-3. Instale as dependências: `npm i`
-4. Execute a aplicação: `npm run dev`
+2. Mude o diretório para o repositório: `cd todo-list-react`.
+3. Instale o `json-server`: `npm i json-server`.
+4. Execute: `json-server db.json5`.
+
+Para executar a aplicação front-end localmente, você precisa do Node 22.0 ou superior.
+
+1. Clone este repositório: `git clone https://github.com/isaque-dantas/todo-list-react`.
+2. Mude o diretório para o repositório: `cd todo-list-react`.
+3. Instale as dependências: `npm i`.
+4. Execute a aplicação: `npm run dev`.
