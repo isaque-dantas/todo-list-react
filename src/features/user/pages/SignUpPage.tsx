@@ -2,12 +2,13 @@ import {UserForm} from "../components/UserForm.tsx";
 import type {UserToSend} from "../../../shared/types.ts";
 import {post} from "../../../shared/services/api-service.ts";
 import {useNavigate} from "react-router";
+import {getIntIfPossible} from "../../../shared/domain.ts";
 
 export function SignUpPage() {
   const navigate = useNavigate();
 
   async function onSubmit(form: UserToSend) {
-    const password = Number.isNaN(parseInt(form.password)) ? form.password : parseInt(form.password);
+    const password = getIntIfPossible(form.password)
     post('users', {...form, password})
     navigate('/login')
   }

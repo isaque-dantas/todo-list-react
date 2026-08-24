@@ -1,4 +1,4 @@
-import type {TaskGroupData, TasksWithDate} from "../../../shared/types.ts";
+import type {TaskGroupWithItems, TasksWithDate} from "../../../shared/types.ts";
 import {TaskGroup} from "./TaskGroup.tsx";
 import {useFormContext} from "react-hook-form";
 
@@ -21,7 +21,7 @@ export function TaskGroupList() {
                 otherTaskGroupsNames={
                   groups
                     .filter((_, index: number) => index !== i)
-                    .map((t: TaskGroupData) => t.name)
+                    .map((t: TaskGroupWithItems) => t.name)
                 }
               />
             )

@@ -1,7 +1,7 @@
 import {Button} from "@radix-ui/themes";
 import {useTaskGroupBeingEditedDispatch} from "../domain/tasksContext.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
-import type {TaskGroupData, TasksWithDate} from "../../../shared/types.ts";
+import type {TaskGroupWithItems, TasksWithDate} from "../../../shared/types.ts";
 
 interface Props {
     addedTaskGroup: () => void;
@@ -19,7 +19,7 @@ export function AddTaskGroupButton({addedTaskGroup}: Props) {
     }
 
     function canAddGroup() {
-        const groupErrors = errors?.groups as FieldErrors<TaskGroupData> | undefined
+        const groupErrors = errors?.groups as FieldErrors<TaskGroupWithItems> | undefined
         return groupErrors === undefined
     }
 

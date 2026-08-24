@@ -1,5 +1,5 @@
 import type {
-  TaskGroupData,
+  TaskGroupWithItems,
   TasksWithDate,
 } from "../../../shared/types.ts";
 import {z} from "zod";
@@ -10,7 +10,7 @@ export function tasksFactory(): TasksWithDate {
     groups: [
       {
         id: '',
-        name: 'Trabalho',
+        key: 'Trabalho',
         items: [
           {id: '', content: 'Finalizar relatório pendente', isDone: false},
           {id: '', content: 'Conversar equipe sobre novos fluxos', isDone: false},
@@ -50,7 +50,7 @@ export function getTaskGroupSchema() {
     .required();
 }
 
-export function validateGroups(data: TaskGroupData[], ctx: z.RefinementCtx) {
+export function validateGroups(data: TaskGroupWithItems[], ctx: z.RefinementCtx) {
   data.forEach((group, groupIndex) => {
     group.items.forEach((itemToValidate, itemIndex) => {
       if (group.items.some((item, index) => itemIndex !== index && itemToValidate.content === item.content)) {

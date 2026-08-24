@@ -1,4 +1,4 @@
-import {type TaskGroupData, type NestedTaskItemData, type TasksWithDate} from "../../../shared/types.ts";
+import {type TaskGroupWithItems, type NestedTaskItemData, type TasksWithDate} from "../../../shared/types.ts";
 import TaskItem from "./TaskItem.tsx";
 import {
   useTaskGroupBeingEdited,
@@ -22,7 +22,7 @@ export function TaskGroup({index}: Props) {
 
   useEffect(() => {
     subscribe({
-      name: `groups.${index}.name`,
+      key: `groups.${index}.name`,
       formState: {values: true},
       callback: () => trigger(`groups`)
     })
@@ -75,7 +75,7 @@ export function TaskGroup({index}: Props) {
   }
 
   function canAddTaskItem(): boolean {
-    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupData> | undefined)?.items as FieldErrors<NestedTaskItemData[]> | undefined
+    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupWithItems> | undefined)?.items as FieldErrors<NestedTaskItemData[]> | undefined
     return taskItemErrors === undefined || taskItemErrors.every(error => error === undefined)
   }
 

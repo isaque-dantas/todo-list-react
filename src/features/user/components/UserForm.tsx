@@ -1,6 +1,6 @@
 import {useState} from "react";
 import type {UserToSend, User} from "../../../shared/types.ts";
-import {useGet} from "../../../shared/services/api-service.ts";
+import {useGet} from "../../../shared/hooks.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";

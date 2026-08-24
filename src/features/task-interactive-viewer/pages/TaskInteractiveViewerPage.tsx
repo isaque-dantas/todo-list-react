@@ -1,4 +1,4 @@
-// import {getTaskGroupSchema, tasksFactory, validateGroups} from "../domain/tasks.ts";
+// import {getTaskGroupSchema, tasksFactory, validateGroups} from "../domain/hooks.ts";
 // import {Strong} from "@radix-ui/themes";
 // import {TaskGroupList} from "../components/TaskGroupList.tsx";
 // import {AddTaskGroupButton} from "../components/AddTaskGroupButton.tsx";

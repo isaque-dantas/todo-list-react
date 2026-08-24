@@ -1,4 +1,4 @@
-import type {TaskGroupData, NestedTaskItemData, TasksWithDate} from "../../../shared/types.ts";
+import type {TaskGroupWithItems, NestedTaskItemData, TasksWithDate} from "../../../shared/types.ts";
 import {Button, Checkbox} from "@radix-ui/themes";
 import {
   Controller,
@@ -26,7 +26,7 @@ export default function TaskItem({onStartEditing, groupIndex, index, isBeingEdit
 
   useEffect(() => {
     subscribe({
-      name: `groups.${groupIndex}.items.${index}.content`,
+      key: `groups.${groupIndex}.items.${index}.content`,
       formState: {values: true},
       callback: () => trigger(`groups`).then(t => console.log(`validou taskItem ${t}`))
     })
@@ -55,7 +55,7 @@ export default function TaskItem({onStartEditing, groupIndex, index, isBeingEdit
     )
   }
 
-  const contentErrors = (errors?.groups?.at!(groupIndex) as FieldErrors<TaskGroupData> | undefined)?.items?.at!(index)?.content
+  const contentErrors = (errors?.groups?.at!(groupIndex) as FieldErrors<TaskGroupWithItems> | undefined)?.items?.at!(index)?.content
   let contentUserErrorMessage = null;
   if (contentErrors) {
     contentUserErrorMessage = <p className="text-base italic text-red-700 font-medium">{contentErrors.message}</p>

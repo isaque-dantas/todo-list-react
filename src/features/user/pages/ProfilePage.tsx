@@ -1,4 +1,4 @@
-import { useAuthenticatedUser } from "../../../shared/services/auth-service"
+import { useAuthenticatedUser } from "../../../shared/hooks"
 import {Button, DataList, Spinner} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 

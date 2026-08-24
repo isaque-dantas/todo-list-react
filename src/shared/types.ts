@@ -2,17 +2,17 @@ import {type Dispatch} from "react";
 
 export interface TasksWithDate {
     date: Date;
-    groups: TaskGroupData[];
+    groups: TaskGroupWithItems[];
 }
 
-export interface TaskGroupData {
+export interface TaskGroupWithItems {
     id: string;
     name: string;
     items: NestedTaskItemData[];
     userId: string;
 }
 
-export interface TaskGroupToSend {
+export interface TaskGroupWithoutItems {
     id: string;
     name: string;
     userId: string;
@@ -60,3 +60,20 @@ export interface User {
     email: string;
     password: string;
 }
+
+export interface CacheContextData {
+    users: User[] | null,
+    items: TaskItemData[] | null,
+    groups: TaskGroupWithoutItems[] | null
+}
+
+export type CacheEntity = 'items' | 'groups' | 'users';
+
+export interface CacheDispatcherAction {
+    type: 'onGet' | 'add' | 'update' | 'remove';
+    data: NonNullable<CacheContextData[CacheEntity]>,
+    entityName: CacheEntity;
+    id: string | null
+}
+
+export type CacheDispatcher = Dispatch<CacheDispatcherAction> | null;

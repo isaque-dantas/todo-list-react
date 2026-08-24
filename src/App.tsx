@@ -14,33 +14,36 @@ import {SignUpPage} from "./features/user/pages/SignUpPage.tsx";
 import {AuthRequiredProvider} from "./shared/components/AuthRequiredProvider.tsx";
 import {ProfilePage} from "./features/user/pages/ProfilePage.tsx";
 import {EditProfilePage} from "./features/user/pages/EditProfilePage.tsx";
+import {CacheContextProvider} from "./shared/contexts/CacheContextProvider.tsx";
 
 export default function App() {
   return (
     <Theme>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<LoginPage/>}/>
-          <Route element={<HeaderProvider/>}>
-            <Route path="/cadastro" element={<SignUpPage/>}></Route>
+      <CacheContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/login" element={<LoginPage/>}/>
+            <Route element={<HeaderProvider/>}>
+              <Route path="/cadastro" element={<SignUpPage/>}></Route>
 
-            <Route element={<AuthRequiredProvider/>}>
-              <Route index element={<TaskViewerPage/>}/>
+              <Route element={<AuthRequiredProvider/>}>
+                <Route index element={<TaskViewerPage/>}/>
 
-              <Route path="/tarefas/adicionar" element={<TaskItemAdderPage/>}/>
-              <Route path="/tarefas/:id/editar" element={<TaskItemEditorPage/>}/>
+                <Route path="/tarefas/adicionar" element={<TaskItemAdderPage/>}/>
+                <Route path="/tarefas/:id/editar" element={<TaskItemEditorPage/>}/>
 
-              <Route path="/grupos/adicionar" element={<TaskGroupAdderPage/>}/>
-              <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}/>
+                <Route path="/grupos/adicionar" element={<TaskGroupAdderPage/>}/>
+                <Route path="/grupos/:id/editar" element={<TaskGroupEditorPage/>}/>
 
-              <Route path="/perfil" element={<ProfilePage/>}/>
-              <Route path="/perfil/editar" element={<EditProfilePage/>}/>
+                <Route path="/perfil" element={<ProfilePage/>}/>
+                <Route path="/perfil/editar" element={<EditProfilePage/>}/>
 
-              <Route path="*" element={<NotFoundPage/>}></Route>
+                <Route path="*" element={<NotFoundPage/>}></Route>
+              </Route>
             </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </CacheContextProvider>
     </Theme>
   )
 }

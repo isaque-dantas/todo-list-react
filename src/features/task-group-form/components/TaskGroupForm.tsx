@@ -1,5 +1,5 @@
-import type {TaskGroupToSend} from "../../../shared/types.ts";
-import {useGroups} from "../../task-viewer/services/tasks.ts";
+import type {TaskGroupWithoutItems} from "../../../shared/types.ts";
+import {useGroups} from "../../../shared/hooks.ts";
 import {useState} from "react";
 import {z} from "zod";
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
@@ -10,13 +10,13 @@ import {taskGroupToSendFactory} from "../../../shared/domain.ts";
 import {getToSend} from "../domain.ts";
 
 interface Props {
-  onSubmit: (group: TaskGroupToSend) => void;
-  defaultValues?: TaskGroupToSend
+  onSubmit: (group: TaskGroupWithoutItems) => void;
+  defaultValues?: TaskGroupWithoutItems
 }
 
 export function TaskGroupForm({onSubmit, defaultValues}: Props) {
   const groups = useGroups()?.map(getToSend);
-  const [addedGroups, _] = useState<TaskGroupToSend[]>([]);
+  const [addedGroups, _] = useState<TaskGroupWithoutItems[]>([]);
   const [searchParams, __] = useSearchParams();
   const navigate = useNavigate();
 
@@ -38,14 +38,14 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
       }
     });
 
-  const {reset, control, formState: {errors}, handleSubmit} = useForm<TaskGroupToSend>({
+  const {reset, control, formState: {errors}, handleSubmit} = useForm<TaskGroupWithoutItems>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? taskGroupToSendFactory(),
     mode: 'onBlur'
   })
 
   async function handleClickOnSubmitBtn() {
-    await handleSubmit((group: TaskGroupToSend) => {
+    await handleSubmit((group: TaskGroupWithoutItems) => {
       if (defaultValues !== undefined) {
         navigate(searchParams.get('to') ?? '/')
       } else {

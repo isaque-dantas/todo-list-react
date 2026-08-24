@@ -1,5 +1,5 @@
 import {UserForm} from "../components/UserForm.tsx";
-import {useAuthenticatedUser} from "../../../shared/services/auth-service.ts";
+import {useAuthenticatedUser} from "../../../shared/hooks.ts";
 import {Spinner} from "@radix-ui/themes";
 import {useNavigate, useSearchParams} from "react-router";
 import {put} from "../../../shared/services/api-service.ts";

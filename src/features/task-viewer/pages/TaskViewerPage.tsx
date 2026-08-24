@@ -1,4 +1,4 @@
-import {useGroups} from "../services/tasks.ts";
+import {useGroups} from "../../../shared/hooks.ts";
 import {Spinner, Switch} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 import {Link} from "@radix-ui/themes";

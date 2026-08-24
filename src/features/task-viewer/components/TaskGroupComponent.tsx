@@ -1,11 +1,11 @@
-import type {TaskGroupData} from "../../../shared/types.ts";
+import type {TaskGroupWithItems} from "../../../shared/types.ts";
 import {Button} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 import {Pencil1Icon} from "@radix-ui/react-icons";
 import {TaskItemComponent} from "./TaskItemComponent.tsx";
 
 interface Props {
-  group: TaskGroupData
+  group: TaskGroupWithItems
   shouldShowEditBtn: boolean;
 }
 

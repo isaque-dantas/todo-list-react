@@ -1,6 +1,6 @@
-import type {TaskGroupData, TaskGroupToSend} from "../../shared/types.ts";
+import type {TaskGroupWithItems, TaskGroupWithoutItems} from "../../shared/types.ts";
 
-export function getToSend(data: TaskGroupData): TaskGroupToSend {
+export function getToSend(data: TaskGroupWithItems): TaskGroupWithoutItems {
   return {
     id: data.id,
     name: data.name,

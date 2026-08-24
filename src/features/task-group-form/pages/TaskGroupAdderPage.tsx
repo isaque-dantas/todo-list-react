@@ -1,10 +1,21 @@
 import {TaskGroupForm} from "../components/TaskGroupForm.tsx";
 import {post} from "../../../shared/services/api-service.ts";
-import type {TaskGroupToSend} from "../../../shared/types.ts";
+import type {TaskGroupWithoutItems} from "../../../shared/types.ts";
+import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
 
 export function TaskGroupAdderPage() {
-  function handleSubmit(group: TaskGroupToSend) {
+  const dispatch = useCacheDispatcher()
+
+  function handleSubmit(group: TaskGroupWithoutItems) {
     post('groups', group)
+      .then((data: TaskGroupWithoutItems) => {
+        dispatch!({
+          type: 'add',
+          data: [data],
+          entityName: 'groups',
+          id: null,
+        })
+      })
   }
 
   return (
