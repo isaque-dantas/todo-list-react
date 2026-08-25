@@ -3,6 +3,7 @@ import type {
   CacheDispatcherAction,
   CacheEntity, TaskGroupWithItems,
 } from "../types.ts";
+import {getToken} from "./auth-service.ts";
 
 export function cacheContextDataFactory(): CacheContextData {
   return {
@@ -89,7 +90,7 @@ export function getIntIfPossible(value: string) {
   return Number.isNaN(parsed) ? value : parsed;
 }
 
-export function makeCacheRequest(cache: CacheContextData, entityName: CacheEntity, url: string, callback: (data: any) => unknown) {
+export function makeCacheRequest(cache: CacheContextData, entityName: CacheEntity, url: string, callback: (data: any) => unknown, withAuthentication: boolean) {
   if (!url.includes('?')) {
     callback(cache[entityName])
     return;
@@ -114,6 +115,11 @@ export function makeCacheRequest(cache: CacheContextData, entityName: CacheEntit
         }
       )
   )
+
+  const token = getToken()
+  if (withAuthentication && token) {
+    params.push({key: 'userId', value: token})
+  }
 
   const entities = (
     cache[entityName]

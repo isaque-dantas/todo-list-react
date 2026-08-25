@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from "react";
 import type {CacheContextData, CacheEntity, TaskGroupWithItems, TaskItemData, User} from "./types.ts";
 import {get} from "./services/api-service.ts";
-import {isAuthenticated} from "./services/auth-service.ts";
+import {getToken, isAuthenticated} from "./services/auth-service.ts";
 import {useCache, useCacheDispatcher} from "./contexts/cache-context.ts";
 
 import {makeCacheRequest, shouldUseCache} from "./services/cache-service.ts";
@@ -23,7 +23,7 @@ export function useAuthenticatedUser() {
   useGet('users', setUsers)
 
   if (!isAuthenticated()) return null;
-  return users !== null ? users[0] : null
+  return users !== null ? users.filter(u => u.id === getToken())[0] : null
 }
 
 export function useGet(url: string, callback: (data: any) => void, withAuthentication: boolean = true) {
@@ -53,7 +53,7 @@ export function useGet(url: string, callback: (data: any) => void, withAuthentic
 
   useEffect(() => {
       if (!shouldUseCacheResult) return;
-      makeCacheRequest(cache!, entityName, url, callbackWithMapper)
+      makeCacheRequest(cache!, entityName, url, callbackWithMapper, withAuthentication)
     }, [entityName, url, callbackWithMapper, cache]
   );
 

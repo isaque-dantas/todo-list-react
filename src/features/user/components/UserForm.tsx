@@ -1,5 +1,5 @@
 import {useState} from "react";
-import type {UserToSend, User} from "../../../shared/types.ts";
+import type {User} from "../../../shared/types.ts";
 import {useGet} from "../../../shared/hooks.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -8,8 +8,8 @@ import {Button} from "@radix-ui/themes";
 import {userToSendFactory} from "../domain.ts";
 
 interface Props {
-  onSubmit: (data: UserToSend) => unknown;
-  defaultValues?: UserToSend
+  onSubmit: (data: User) => unknown;
+  defaultValues?: User
 }
 
 export function UserForm({onSubmit, defaultValues}: Props) {
@@ -17,6 +17,7 @@ export function UserForm({onSubmit, defaultValues}: Props) {
   useGet('users', setUsers, false);
 
   const schema = z.object({
+    id: z.string(),
     name: (
       z
         .string()
@@ -52,7 +53,7 @@ export function UserForm({onSubmit, defaultValues}: Props) {
     )
   })
 
-  const {register, formState: {errors}, handleSubmit} = useForm<UserToSend>({
+  const {register, formState: {errors}, handleSubmit} = useForm<User>({
     resolver: zodResolver(schema),
     defaultValues: (defaultValues ?? userToSendFactory()),
     mode: 'onBlur'

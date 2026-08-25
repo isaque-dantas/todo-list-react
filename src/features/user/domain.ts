@@ -1,7 +1,10 @@
-import type {UserToSend} from "../../shared/types.ts";
+// import type {UserToSend} from "../../shared/types.ts";
 
-export function userToSendFactory(): UserToSend {
+import type {User} from "../../shared/types.ts";
+
+export function userToSendFactory(): User {
  return {
+   id: '',
    name: '',
    email: '',
    password: '',

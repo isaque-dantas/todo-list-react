@@ -42,9 +42,9 @@ export interface LoginForm {
     password: string;
 }
 
-export interface UserToSend extends LoginForm {
-    name: string;
-}
+// export interface UserToSend extends LoginForm {
+//     name: string;
+// }
 
 export interface User {
     id: string;
