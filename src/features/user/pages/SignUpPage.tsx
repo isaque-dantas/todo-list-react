@@ -2,7 +2,8 @@ import {UserForm} from "../components/UserForm.tsx";
 import type {UserToSend} from "../../../shared/types.ts";
 import {post} from "../../../shared/services/api-service.ts";
 import {useNavigate} from "react-router";
-import {getIntIfPossible} from "../../../shared/domain.ts";
+
+import {getIntIfPossible} from "../../../shared/services/cache-service.ts";
 
 export function SignUpPage() {
   const navigate = useNavigate();

@@ -7,11 +7,10 @@ import {useNavigate, useParams, useSearchParams} from "react-router";
 import {Button, Spinner} from "@radix-ui/themes";
 import {TrashIcon} from "@radix-ui/react-icons";
 import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
-// import {getGroupToSendFromGroup} from "../../../shared/domain.ts";
 
 export function TaskGroupEditorPage() {
   const {id} = useParams()
-  const [group, setGroup] = useState<TaskGroupWithoutItems>();
+  const [group, setGroup] = useState<TaskGroupWithoutItems | null>(null);
   useGet(`groups/${id}`, setGroup)
 
   const dispatch = useCacheDispatcher()
@@ -32,6 +31,12 @@ export function TaskGroupEditorPage() {
   function handleDelete() {
     remove(`groups/${id}`)
     navigate(searchParams.get('to') ?? '/')
+    dispatch!({
+      type: 'remove',
+      entityName: 'groups',
+      id: id!,
+      data: []
+    })
   }
 
   return (
@@ -41,7 +46,9 @@ export function TaskGroupEditorPage() {
         <Button onClick={handleDelete} variant={"surface"} color="ruby">Excluir <TrashIcon/></Button>
       </article>
       {
-        !group ? <p>Carregando... <Spinner/></p>
+        group === null
+          ?
+          <p>Carregando... <Spinner/></p>
           :
           <TaskGroupForm defaultValues={group} onSubmit={handleSubmit}/>
       }

@@ -1,12 +1,13 @@
 import {TaskItemForm} from "../components/TaskItemForm.tsx";
 import {useParams} from "react-router";
-import {put} from "../../../shared/services/api-service.ts";
+import {put, remove} from "../../../shared/services/api-service.ts";
 import {useGet} from "../../../shared/hooks.ts";
 import {useState} from "react";
 import type {TaskItemToSend} from "../../../shared/types.ts";
-import {Spinner} from "@radix-ui/themes";
+import {Button, Spinner} from "@radix-ui/themes";
 import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
 import {getTaskItemFromTaskItemToSend} from "../../../shared/domain.ts";
+import {TrashIcon} from "@radix-ui/react-icons";
 
 export function TaskItemEditorPage() {
   const {id} = useParams();
@@ -25,9 +26,22 @@ export function TaskItemEditorPage() {
     })
   }
 
+  function handleDelete() {
+    remove(`items/${id}`)
+    dispatch!({
+      type: 'remove',
+      id: id!,
+      entityName: 'items',
+      data: [],
+    })
+  }
+
   return (
     <main>
-      <h1 className="text-4xl font-medium text-indigo-700">Editar tarefa</h1>
+      <article className="flex gap-10 items-center">
+        <h1 className="text-4xl font-medium text-indigo-700">Editar tarefa</h1>
+        <Button onClick={handleDelete} variant={"surface"} color="ruby">Excluir <TrashIcon/></Button>
+      </article>
       {
         item === null
           ?

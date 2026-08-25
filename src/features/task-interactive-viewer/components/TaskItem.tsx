@@ -1,4 +1,4 @@
-import type {TaskGroupWithItems, NestedTaskItemData, TasksWithDate} from "../../../shared/types.ts";
+import type {TaskGroupWithItems, TaskItemData, TasksWithDate} from "../../../shared/types.ts";
 import {Button, Checkbox} from "@radix-ui/themes";
 import {
   Controller,
@@ -8,7 +8,7 @@ import {type KeyboardEvent,useMemo, useEffect} from "react";
 import {TrashIcon} from "@radix-ui/react-icons";
 
 interface Props {
-  otherItems: NestedTaskItemData[];
+  otherItems: TaskItemData[];
   onStartEditing: () => void;
   onBlur: () => void;
   isBeingEdited: boolean;
@@ -26,9 +26,9 @@ export default function TaskItem({onStartEditing, groupIndex, index, isBeingEdit
 
   useEffect(() => {
     subscribe({
-      key: `groups.${groupIndex}.items.${index}.content`,
+      name: `groups.${groupIndex}.items.${index}.content`,
       formState: {values: true},
-      callback: () => trigger(`groups`).then(t => console.log(`validou taskItem ${t}`))
+      callback: () => trigger(`groups`) //.then(t => console.log(`validou taskItem ${t}`))
     })
   }, [subscribe, index, groupIndex, trigger]);
 

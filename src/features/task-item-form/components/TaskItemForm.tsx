@@ -67,7 +67,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
   }
 
   function onError(errors: FieldErrors<TaskItemToSend>) {
-    console.log('erro!!!', errors)
+    console.error(errors)
   }
 
   const contentError = errors?.content;

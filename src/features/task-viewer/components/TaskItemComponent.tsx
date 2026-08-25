@@ -1,10 +1,10 @@
-import type {NestedTaskItemData} from "../../../shared/types.ts";
+import type {TaskItemData} from "../../../shared/types.ts";
 import {Badge, Button} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 import {Pencil1Icon} from "@radix-ui/react-icons";
 
 interface Props {
-  item: NestedTaskItemData;
+  item: TaskItemData;
   shouldShowEditBtn: boolean;
 }
 

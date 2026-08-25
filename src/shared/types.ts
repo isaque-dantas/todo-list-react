@@ -8,7 +8,7 @@ export interface TasksWithDate {
 export interface TaskGroupWithItems {
     id: string;
     name: string;
-    items: NestedTaskItemData[];
+    items: TaskItemData[];
     userId: string;
 }
 
@@ -18,22 +18,14 @@ export interface TaskGroupWithoutItems {
     userId: string;
 }
 
-export interface NestedTaskItemData {
-    id: string;
-    content: string;
-    isDone: boolean;
-}
+// export interface TaskItemData {
+//     id: string;
+//     content: string;
+//     isDone: boolean;
+// }
 
 export interface TaskItemData {
     id: string;
-    content: string;
-    isDone: boolean;
-    groupId: string;
-    userId: string;
-}
-
-export interface TaskItemToSend {
-    id?: string;
     content: string;
     isDone: boolean;
     groupId: string;

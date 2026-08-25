@@ -1,4 +1,4 @@
-import {type TaskGroupWithItems, type NestedTaskItemData, type TasksWithDate} from "../../../shared/types.ts";
+import {type TaskGroupWithItems, type TaskItemData, type TasksWithDate} from "../../../shared/types.ts";
 import TaskItem from "./TaskItem.tsx";
 import {
   useTaskGroupBeingEdited,
@@ -7,7 +7,7 @@ import {
 import {useState, type FocusEvent, type KeyboardEvent, useEffect} from "react";
 import {Button} from "@radix-ui/themes";
 import {PlusIcon, TrashIcon} from "@radix-ui/react-icons";
-import {nestedTaskItemFactory} from "../../../shared/domain.ts";
+import {taskItemFactory} from "../../../shared/domain.ts";
 import {type FieldErrors, useFormContext} from "react-hook-form";
 import {flushSync} from "react-dom";
 
@@ -22,7 +22,7 @@ export function TaskGroup({index}: Props) {
 
   useEffect(() => {
     subscribe({
-      key: `groups.${index}.name`,
+      name: `groups.${index}.name`,
       formState: {values: true},
       callback: () => trigger(`groups`)
     })
@@ -36,7 +36,6 @@ export function TaskGroup({index}: Props) {
   function startEditing() {
     groupBeingEditedDispatch!(index)
     setFocus(`groups.${index}.name`)
-    console.log('focus on group ', index)
   }
 
   function onDelete() {
@@ -64,7 +63,7 @@ export function TaskGroup({index}: Props) {
       `groups.${index}.items`,
       [
         ...getValues(`groups.${index}.items`),
-        nestedTaskItemFactory()
+        taskItemFactory()
       ]
     ))
 
@@ -75,7 +74,7 @@ export function TaskGroup({index}: Props) {
   }
 
   function canAddTaskItem(): boolean {
-    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupWithItems> | undefined)?.items as FieldErrors<NestedTaskItemData[]> | undefined
+    const taskItemErrors = (errors?.groups?.at!(index) as FieldErrors<TaskGroupWithItems> | undefined)?.items as FieldErrors<TaskItemData[]> | undefined
     return taskItemErrors === undefined || taskItemErrors.every(error => error === undefined)
   }
 

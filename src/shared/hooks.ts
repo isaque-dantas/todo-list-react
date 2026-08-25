@@ -1,9 +1,10 @@
-import {useEffect, useState} from "react";
-import type {TaskGroupWithItems, TaskItemData, User} from "./types.ts";
+import {useCallback, useEffect, useState} from "react";
+import type {CacheContextData, CacheEntity, TaskGroupWithItems, TaskItemData, User} from "./types.ts";
 import {get} from "./services/api-service.ts";
 import {isAuthenticated} from "./services/auth-service.ts";
 import {useCache, useCacheDispatcher} from "./contexts/cache-context.ts";
-import {makeCacheRequest} from "./domain.ts";
+
+import {makeCacheRequest, shouldUseCache} from "./services/cache-service.ts";
 
 export function useItems(options: string = '') {
   const [items, setItems] = useState<TaskItemData[] | null>(null);
@@ -29,26 +30,44 @@ export function useGet(url: string, callback: (data: any) => void, withAuthentic
   const cache = useCache()
   const dispatch = useCacheDispatcher()
   const entityName = url.split('/')[0].split('?')[0] as ('items' | 'groups' | 'users')
+  const isSingleElementRequest = url.includes('/')
+
+  const shouldUseCacheResult = shouldUseCache(cache, entityName, url);
+
+  const callbackWithMapper = useCallback(
+    (data: any) => {
+      if (!isSingleElementRequest) {
+        callback(data)
+        return;
+      }
+
+      const urlId = url.split('/')[1].split('?')[0];
+      const dataToReturn = (
+        (data as CacheContextData[CacheEntity])?.filter(e => e.id === urlId)[0]
+      )
+
+      callback(dataToReturn)
+    },
+    [callback]
+  )
 
   useEffect(() => {
-      if (cache !== null && cache[entityName] !== null) {
-        makeCacheRequest(cache, entityName, url, callback)
-        console.log('cache!')
-      }
-    }, [entityName, url, callback, cache]
+      if (!shouldUseCacheResult) return;
+      makeCacheRequest(cache!, entityName, url, callbackWithMapper)
+    }, [entityName, url, callbackWithMapper, cache]
   );
 
   useEffect(
     () => {
+      if (shouldUseCacheResult) return;
       get(url, withAuthentication)
         .then(data => {
-          console.log('api!')
+          if (url.includes('/')) data = [data]
           dispatch!({type: 'onGet', data, entityName, id: null})
           return data
         })
-        .then(callback)
+        .then(callbackWithMapper)
     },
-    [url, callback, withAuthentication, entityName, dispatch]
+    [url, callbackWithMapper, withAuthentication, entityName, dispatch]
   )
-  return;
 }

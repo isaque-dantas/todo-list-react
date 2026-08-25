@@ -38,7 +38,8 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
       }
     });
 
-  const {reset, control, formState: {errors}, handleSubmit} = useForm<TaskGroupWithoutItems>({
+  // console.log('defaultValues', defaultValues ?? taskGroupToSendFactory())
+  const {reset, control, formState: {errors}, handleSubmit, getValues} = useForm<TaskGroupWithoutItems>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? taskGroupToSendFactory(),
     mode: 'onBlur'
@@ -56,20 +57,20 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
   }
 
   function onError(error: FieldErrors) {
-    console.error(error)
+    console.error(error, 'value:', getValues())
   }
 
   return (
     <article className="mt-10">
       <fieldset className="flex flex-col gap-2 max-w-100 mb-8">
-        <label htmlFor="name">Nome do grupo</label>
+        <label htmlFor="task-group-form-name">Nome do grupo</label>
         <Controller
           name="name"
           control={control}
           render={
             ({field}) =>
               <TextField.Root
-                id="name"
+                id="task-group-form-name"
                 {...field}
                 size="3"
                 placeholder="Insira aqui o nome do grupo..."

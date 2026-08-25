@@ -1,6 +1,6 @@
 import {CacheContext, CacheDispatcherContext} from "./cache-context.ts";
 import {type ReactNode, useReducer} from "react";
-import {cacheContextDataFactory, cacheReducer} from "../domain.ts";
+import {cacheContextDataFactory, cacheReducer} from "../services/cache-service.ts";
 
 interface Props {
   children: ReactNode;
