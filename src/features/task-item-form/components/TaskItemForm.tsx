@@ -1,5 +1,5 @@
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
-import type {TaskItemToSend} from "../../../shared/types.ts";
+import type {TaskItemData} from "../../../shared/types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {taskItemFactory} from "../../../shared/domain.ts";
 import {z} from "zod";
@@ -9,18 +9,19 @@ import {type SubmitEvent, useState} from "react";
 import {useNavigate, useSearchParams} from "react-router";
 
 interface Props {
-  onSubmit: (data: TaskItemToSend) => unknown;
-  defaultValues?: TaskItemToSend;
+  onSubmit: (data: TaskItemData) => unknown;
+  defaultValues?: TaskItemData;
 }
 
 export function TaskItemForm({onSubmit, defaultValues}: Props) {
   const groups = useGroups();
   const itemsFromApi = useItems();
-  const [addedItems, setAddedItems] = useState<TaskItemToSend[]>([]);
+  const [addedItems, setAddedItems] = useState<TaskItemData[]>([]);
   const [searchParams, _] = useSearchParams()
   const navigate = useNavigate();
 
   const schema = z.object({
+    id: z.string(),
     content: z.string().nonempty("O conteúdo da tarefa não pode estar vazio.").trim(),
     isDone: z.boolean(),
     groupId: z.string().nonempty("Você precisa escolher um grupo."),
@@ -44,7 +45,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
 
   const defaultValuesOnForm = defaultValues ?? taskItemFactory();
 
-  const {register, reset, getValues, control, formState: {errors}, handleSubmit} = useForm<TaskItemToSend>({
+  const {register, reset, getValues, control, formState: {errors}, handleSubmit} = useForm<TaskItemData>({
     resolver: zodResolver(schema),
     defaultValues: {...defaultValuesOnForm},
     mode: 'onBlur'
@@ -54,7 +55,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
     e.preventDefault();
 
     await handleSubmit(
-      (item: TaskItemToSend) => {
+      (item: TaskItemData) => {
         if (defaultValues) {
           navigate(searchParams.get('to') ?? '/')
         }
@@ -66,7 +67,7 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
     )()
   }
 
-  function onError(errors: FieldErrors<TaskItemToSend>) {
+  function onError(errors: FieldErrors<TaskItemData>) {
     console.error(errors)
   }
 

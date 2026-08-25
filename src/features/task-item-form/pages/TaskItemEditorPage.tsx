@@ -3,7 +3,7 @@ import {useParams} from "react-router";
 import {put, remove} from "../../../shared/services/api-service.ts";
 import {useGet} from "../../../shared/hooks.ts";
 import {useState} from "react";
-import type {TaskItemToSend} from "../../../shared/types.ts";
+import type {TaskItemData} from "../../../shared/types.ts";
 import {Button, Spinner} from "@radix-ui/themes";
 import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
 import {getTaskItemFromTaskItemToSend} from "../../../shared/domain.ts";
@@ -11,12 +11,12 @@ import {TrashIcon} from "@radix-ui/react-icons";
 
 export function TaskItemEditorPage() {
   const {id} = useParams();
-  const [item, setItem] = useState<TaskItemToSend | null>(null)
+  const [item, setItem] = useState<TaskItemData | null>(null)
   useGet(`items/${id}`, setItem)
 
   const dispatch = useCacheDispatcher()
 
-  function handleSubmit(editedItem: TaskItemToSend) {
+  function handleSubmit(editedItem: TaskItemData) {
     put(`items/${id}`, editedItem)
     dispatch!({
       type: 'update',

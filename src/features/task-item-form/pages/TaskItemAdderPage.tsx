@@ -1,5 +1,5 @@
 import {TaskItemForm} from "../components/TaskItemForm.tsx";
-import type {TaskItemData, TaskItemToSend} from "../../../shared/types.ts";
+import type {TaskItemData} from "../../../shared/types.ts";
 import {post} from "../../../shared/services/api-service.ts";
 import { useNavigate } from 'react-router';
 import {Link} from "@radix-ui/themes";
@@ -9,7 +9,7 @@ export function TaskItemAdderPage() {
   const navigate = useNavigate();
   const dispatch = useCacheDispatcher()
 
-  function handleSubmit(item: TaskItemToSend) {
+  function handleSubmit(item: TaskItemData) {
     post('items', item)
       .then((data: TaskItemData) => {
         dispatch!({

@@ -1,7 +1,6 @@
 import type {
   TaskGroupWithoutItems,
   TaskItemData,
-  TaskItemToSend
 } from "./types.ts";
 
 export function taskGroupToSendFactory(): TaskGroupWithoutItems {
@@ -12,7 +11,7 @@ export function taskGroupToSendFactory(): TaskGroupWithoutItems {
   }
 }
 
-export function taskItemFactory(groupId: string = ''): TaskItemToSend {
+export function taskItemFactory(groupId: string = ''): TaskItemData {
   return {
     id: '',
     content: '',
@@ -22,7 +21,7 @@ export function taskItemFactory(groupId: string = ''): TaskItemToSend {
   }
 }
 
-export function getTaskItemFromTaskItemToSend(id: string, item: TaskItemToSend): TaskItemData{
+export function getTaskItemFromTaskItemToSend(id: string, item: TaskItemData): TaskItemData{
   return {
     ...item,
     id,
