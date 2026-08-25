@@ -1,6 +1,6 @@
 import type {TaskGroupWithoutItems} from "../../../shared/types.ts";
 import {useGroups} from "../../../shared/hooks.ts";
-import {useState} from "react";
+import {type SubmitEvent, useState} from "react";
 import {z} from "zod";
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -38,14 +38,14 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
       }
     });
 
-  // console.log('defaultValues', defaultValues ?? taskGroupToSendFactory())
   const {reset, control, formState: {errors}, handleSubmit, getValues} = useForm<TaskGroupWithoutItems>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues ?? taskGroupToSendFactory(),
     mode: 'onBlur'
   })
 
-  async function handleClickOnSubmitBtn() {
+  async function handleSubmitEvent(e: SubmitEvent) {
+    e.preventDefault();
     await handleSubmit((group: TaskGroupWithoutItems) => {
       if (defaultValues !== undefined) {
         navigate(searchParams.get('to') ?? '/')
@@ -61,7 +61,7 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
   }
 
   return (
-    <article className="mt-10">
+    <form onSubmit={handleSubmitEvent} className="mt-10">
       <fieldset className="flex flex-col gap-2 max-w-100 mb-8">
         <label htmlFor="task-group-form-name">Nome do grupo</label>
         <Controller
@@ -81,10 +81,10 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
       </fieldset>
       <Button
         disabled={errors !== undefined && errors.name !== undefined}
-        onClick={handleClickOnSubmitBtn}
+        type="submit"
       >
         Enviar informações
       </Button>
-    </article>
+    </form>
   )
 }

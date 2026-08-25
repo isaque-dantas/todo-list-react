@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useState, type SubmitEvent} from "react";
 import type {User} from "../../../shared/types.ts";
 import {useGet} from "../../../shared/hooks.ts";
 import {useForm} from "react-hook-form";
@@ -70,11 +70,18 @@ export function UserForm({onSubmit, defaultValues}: Props) {
     )
   }
 
-  return (<article className="flex flex-col gap-6">
+  async function handleSubmitEvent(e: SubmitEvent) {
+    e.preventDefault();
+    await handleSubmit(onSubmit)()
+  }
+
+  return (
+    <form onSubmit={handleSubmitEvent} className="flex flex-col gap-6">
       <fieldset className="flex flex-3 flex-col gap-2 max-w-120">
         <label htmlFor="content">Nome</label>
         <input
           id="name"
+          type="text"
           {...register("name")}
           placeholder="Insira seu nome aqui..."
           className="flex-1 border px-2 py-1 rounded-lg border-slate-300"
@@ -89,6 +96,7 @@ export function UserForm({onSubmit, defaultValues}: Props) {
         <label htmlFor="content">E-mail</label>
         <input
           id="email"
+          type="text"
           {...register("email")}
           placeholder="Insira o e-mail aqui..."
           className="flex-1 border px-2 py-1 rounded-lg border-slate-300"
@@ -117,8 +125,9 @@ export function UserForm({onSubmit, defaultValues}: Props) {
         <Button
           disabled={shouldDisableSubmit()}
           size="3"
-          onClick={handleSubmit(onSubmit)}>Enviar informações</Button>
+          type="submit"
+        >Enviar informações</Button>
       </div>
-    </article>
+    </form>
   )
 }
