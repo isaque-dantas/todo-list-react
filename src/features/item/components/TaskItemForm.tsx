@@ -3,10 +3,12 @@ import type {TaskItemData} from "../../../shared/types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {taskItemFactory} from "../../../shared/domain.ts";
 import {z} from "zod";
-import {useGroups, useItems} from "../../../shared/hooks.ts";
 import {Button, Checkbox, Spinner} from "@radix-ui/themes";
-import {type SubmitEvent, useState} from "react";
+import {type SubmitEvent} from "react";
 import {useNavigate, useSearchParams} from "react-router";
+import {useGroupList} from "../../group/api/queries.ts";
+import {useItemList} from "../api/queries.ts";
+import {Loading} from "../../../shared/components/Loading.tsx";
 
 interface Props {
   onSubmit: (data: TaskItemData) => unknown;
@@ -14,9 +16,9 @@ interface Props {
 }
 
 export function TaskItemForm({onSubmit, defaultValues}: Props) {
-  const groups = useGroups();
-  const itemsFromApi = useItems();
-  const [addedItems, setAddedItems] = useState<TaskItemData[]>([]);
+  const {isLoading: isLoadingGroups, data: groups} = useGroupList({shouldEmbedItems: false});
+  const {isLoading: isLoadingItems, data: itemsFromApi} = useItemList();
+
   const [searchParams, _] = useSearchParams()
   const navigate = useNavigate();
 
@@ -29,9 +31,10 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
   })
     .required()
     .superRefine((data, ctx) => {
-      const itemsToCompare = itemsFromApi ? addedItems.concat(itemsFromApi) : addedItems
-      let itemsFromSameGroup = itemsToCompare.filter(item => item.groupId === data.groupId)
-      if (itemsFromSameGroup === undefined) return;
+      if (itemsFromApi === undefined) return;
+
+      let itemsFromSameGroup = itemsFromApi.filter(item => item.groupId === data.groupId)
+      if (itemsFromSameGroup.length === 0) return;
 
       if (defaultValues) itemsFromSameGroup = itemsFromSameGroup.filter(item => item.id !== defaultValues.id);
       if (itemsFromSameGroup.some(item => item.content === data.content)) {
@@ -60,7 +63,6 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
           navigate(searchParams.get('to') ?? '/')
         }
         reset()
-        setAddedItems([...addedItems, item])
         onSubmit(item)
       },
       onError
@@ -70,6 +72,8 @@ export function TaskItemForm({onSubmit, defaultValues}: Props) {
   function onError(errors: FieldErrors<TaskItemData>) {
     console.error(errors)
   }
+
+  if (isLoadingItems || isLoadingGroups || itemsFromApi === undefined || groups === undefined) return <Loading/>
 
   const contentError = errors?.content;
   const contentErrorMessage = contentError ? <p className="font-medium text-sm text-red-700">{contentError.message}</p> : null;

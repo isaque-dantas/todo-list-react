@@ -1,24 +1,15 @@
 import {TaskItemForm} from "../components/TaskItemForm.tsx";
 import type {TaskItemData} from "../../../shared/types.ts";
-import {post} from "../../../shared/services/api-service.ts";
 import { useNavigate } from 'react-router';
 import {Link} from "@radix-ui/themes";
-import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
+import {useItemCreate} from "../api/mutations.ts";
 
 export function TaskItemAdderPage() {
   const navigate = useNavigate();
-  const dispatch = useCacheDispatcher()
+  const {mutate} = useItemCreate()
 
   function handleSubmit(item: TaskItemData) {
-    post('items', item)
-      .then((data: TaskItemData) => {
-        dispatch!({
-          type: 'add',
-          data: [data],
-          entityName: 'items',
-          id: null,
-        })
-      })
+    mutate(item)
   }
 
   return (

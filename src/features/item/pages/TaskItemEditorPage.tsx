@@ -1,40 +1,28 @@
 import {TaskItemForm} from "../components/TaskItemForm.tsx";
 import {useParams} from "react-router";
-import {put, remove} from "../../../shared/services/api-service.ts";
-import {useGet} from "../../../shared/hooks.ts";
-import {useState} from "react";
 import type {TaskItemData} from "../../../shared/types.ts";
 import {Button, Spinner} from "@radix-ui/themes";
-import {useCacheDispatcher} from "../../../shared/contexts/cache-context.ts";
-import {getTaskItemFromTaskItemToSend} from "../../../shared/domain.ts";
 import {TrashIcon} from "@radix-ui/react-icons";
+import {useItemDetail} from "../api/queries.ts";
+import {useItemRemove, useItemUpdate} from "../api/mutations.ts";
+import {Loading} from "../../../shared/components/Loading.tsx";
 
 export function TaskItemEditorPage() {
   const {id} = useParams();
-  const [item, setItem] = useState<TaskItemData | null>(null)
-  useGet(`items/${id}`, setItem)
 
-  const dispatch = useCacheDispatcher()
+  const {isLoading, data: item} = useItemDetail(id ?? '')
+  const {mutate: update} = useItemUpdate()
+  const {mutate: remove} = useItemRemove()
 
   function handleSubmit(editedItem: TaskItemData) {
-    put(`items/${id}`, editedItem)
-    dispatch!({
-      type: 'update',
-      data: [getTaskItemFromTaskItemToSend(id!, editedItem)],
-      id: id!,
-      entityName: 'items'
-    })
+    update(editedItem)
   }
 
   function handleDelete() {
-    remove(`items/${id}`)
-    dispatch!({
-      type: 'remove',
-      id: id!,
-      entityName: 'items',
-      data: [],
-    })
+    remove(id!)
   }
+
+  if (isLoading) return <Loading />
 
   return (
     <main>

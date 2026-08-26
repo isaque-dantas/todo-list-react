@@ -1,11 +1,12 @@
-import {useState, type SubmitEvent} from "react";
+import {type SubmitEvent} from "react";
 import type {User} from "../../../shared/types.ts";
-import {useGet} from "../../../shared/hooks.ts";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {z} from "zod";
 import {Button} from "@radix-ui/themes";
 import {userToSendFactory} from "../domain.ts";
+import {useUserList} from "../api/queries.ts";
+import {Loading} from "../../../shared/components/Loading.tsx";
 
 interface Props {
   onSubmit: (data: User) => unknown;
@@ -13,8 +14,9 @@ interface Props {
 }
 
 export function UserForm({onSubmit, defaultValues}: Props) {
-  const [users, setUsers] = useState<User[] | null>(null);
-  useGet('users', setUsers, false);
+  // const [users, setUsers] = useState<User[] | null>(null);
+  // useGet('users', setUsers, false);
+  const {data: users, isLoading} = useUserList();
 
   const schema = z.object({
     id: z.string(),
@@ -32,7 +34,7 @@ export function UserForm({onSubmit, defaultValues}: Props) {
       .refine(
         value => {
           return (
-            users === null
+            users === undefined
 
             ||
 
@@ -74,6 +76,8 @@ export function UserForm({onSubmit, defaultValues}: Props) {
     e.preventDefault();
     await handleSubmit(onSubmit)()
   }
+
+  if (isLoading) return <Loading />
 
   return (
     <form onSubmit={handleSubmitEvent} className="flex flex-col gap-6">

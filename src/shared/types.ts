@@ -69,3 +69,7 @@ export interface CacheDispatcherAction {
 }
 
 export type CacheDispatcher = Dispatch<CacheDispatcherAction> | null;
+
+export interface ApiError {
+    error: string;
+}

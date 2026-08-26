@@ -1,26 +1,38 @@
-import {useGroups} from "../../../shared/hooks.ts";
-import {Spinner, Switch} from "@radix-ui/themes";
+import {Switch} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 import {Link} from "@radix-ui/themes";
 import {useState} from "react";
 import {TaskGroupComponent} from "../components/TaskGroupComponent.tsx";
+import {useGroupList} from "../../group/api/queries.ts";
+import {Loading} from "../../../shared/components/Loading.tsx";
+import type {TaskGroupWithItems} from "../../../shared/types.ts";
 
-export function TaskViewerPage() {
-  const groups = useGroups('?_embed=items')
+export function DashboardPage() {
+  const { isPending, isError, data, error } = useGroupList({ shouldEmbedItems: true })
   const [checked, setChecked] = useState<boolean>(false)
   const navigate = useNavigate();
 
-  let groupsContent = null;
+  if (isPending || data === undefined) return <Loading/>;
+  if (isError) return <p>Houve um error! {error.message}</p>
 
-  if (groups === null) {
-    groupsContent = <h3>Carregando... <Spinner /></h3>;
-  } else if (groups.length === 0) {
-    groupsContent = <p className="text-indigo-700 text-xl italic">Ainda não há grupos de tarefas cadastrados.</p>
-  } else groupsContent = (
+  let content = null;
+  if (data.length === 0) {
+    content = <p className="text-indigo-700 text-xl italic">Ainda não há grupos de tarefas cadastrados.</p>
+  } else {
+    content = (
       <section className="flex flex-col gap-16">
-        { groups.map(group => <TaskGroupComponent key={group.id} group={group} shouldShowEditBtn={checked}/>) }
+        {
+          data.map(
+            group => <TaskGroupComponent
+              key={group.id}
+              group={group as TaskGroupWithItems}
+              shouldShowEditBtn={checked}
+            />
+          )
+        }
       </section>
     )
+  }
 
   return (
     <main>
@@ -33,7 +45,7 @@ export function TaskViewerPage() {
         <p>Clique aqui para <Link onClick={() => navigate('/tarefas/adicionar')}>adicionar uma tarefa</Link>.</p>
       </article>
 
-      { groupsContent }
+      { content }
     </main>
   )
 }

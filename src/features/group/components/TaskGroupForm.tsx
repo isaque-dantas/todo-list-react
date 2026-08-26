@@ -1,13 +1,13 @@
 import type {TaskGroupWithoutItems} from "../../../shared/types.ts";
-import {useGroups} from "../../../shared/hooks.ts";
-import {type SubmitEvent, useState} from "react";
+import {type SubmitEvent} from "react";
 import {z} from "zod";
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button, TextField} from "@radix-ui/themes";
 import {useNavigate, useSearchParams} from "react-router";
 import {taskGroupToSendFactory} from "../../../shared/domain.ts";
-import {getToSend} from "../domain.ts";
+import {useGroupList} from "../api/queries.ts";
+import {Loading} from "../../../shared/components/Loading.tsx";
 
 interface Props {
   onSubmit: (group: TaskGroupWithoutItems) => void;
@@ -15,8 +15,7 @@ interface Props {
 }
 
 export function TaskGroupForm({onSubmit, defaultValues}: Props) {
-  const groups = useGroups()?.map(getToSend);
-  const [addedGroups, _] = useState<TaskGroupWithoutItems[]>([]);
+  const {isLoading, data: groups} = useGroupList({shouldEmbedItems: false});
   const [searchParams, __] = useSearchParams();
   const navigate = useNavigate();
 
@@ -26,10 +25,12 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
     userId: z.any(),
   })
     .required()
-    .superRefine((data, ctx) => {
-      let groupsToCompare = groups ? addedGroups.concat(groups) : addedGroups
+    .superRefine(({name: nameValue}, ctx) => {
+      if (groups === undefined) return;
+
+      let groupsToCompare = [...groups];
       if (defaultValues) groupsToCompare = groupsToCompare.filter(group => group.id !== defaultValues.id);
-      if (groupsToCompare.some(group => group.name === data.name)) {
+      if (groupsToCompare.some(group => group.name === nameValue)) {
         ctx.addIssue({
           code: 'custom',
           path: ['name'],
@@ -60,6 +61,8 @@ export function TaskGroupForm({onSubmit, defaultValues}: Props) {
     console.error(error, 'value:', getValues())
   }
 
+  if (isLoading || groups === undefined) return <Loading/>
+  
   return (
     <form onSubmit={handleSubmitEvent} className="mt-10">
       <fieldset className="flex flex-col gap-2 max-w-100 mb-8">
