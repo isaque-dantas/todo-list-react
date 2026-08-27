@@ -5,9 +5,9 @@ import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Button, TextField} from "@radix-ui/themes";
 import {useNavigate, useSearchParams} from "react-router";
-import {taskGroupToSendFactory} from "../../../shared/domain.ts";
 import {useGroupList} from "../api/queries.ts";
 import {Loading} from "../../../shared/components/Loading.tsx";
+import {taskGroupToSendFactory} from "../domain.ts";
 
 interface Props {
   onSubmit: (group: TaskGroupWithoutItems) => void;

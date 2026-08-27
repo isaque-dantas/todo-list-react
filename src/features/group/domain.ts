@@ -1,9 +1,9 @@
-import type {TaskGroupWithItems, TaskGroupWithoutItems} from "../../shared/types.ts";
+import type {TaskGroupWithoutItems} from "../../shared/types.ts";
 
-export function getWithoutItems(data: TaskGroupWithItems): TaskGroupWithoutItems {
+export function taskGroupToSendFactory(): TaskGroupWithoutItems {
   return {
-    id: data.id,
-    name: data.name,
-    userId: data.userId,
+    id: '',
+    name: '',
+    userId: ''
   }
 }

@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {groupEndpoints} from "./endpoints.ts";
+import {queryDefaultOptions} from "../../../shared/api.defaults.ts";
 
 export const GROUP_QUERY_KEY = {
   ALL: ["group"],
@@ -15,12 +16,14 @@ export function useGroupList({shouldEmbedItems}: UseGroupListParams) {
   return useQuery({
     queryFn: () => groupEndpoints.list(shouldEmbedItems),
     queryKey: GROUP_QUERY_KEY.LIST(shouldEmbedItems),
+    ...queryDefaultOptions
   })
 }
 
 export function useGroupDetail(id: string) {
   return useQuery({
     queryFn: () => groupEndpoints.detail(id),
-    queryKey: GROUP_QUERY_KEY.DETAIL(id)
+    queryKey: GROUP_QUERY_KEY.DETAIL(id),
+    ...queryDefaultOptions
   })
 }

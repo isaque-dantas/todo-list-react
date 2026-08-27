@@ -51,7 +51,7 @@ export function LoginPage() {
   return (
     <main className="max-w-xl mx-auto">
       <h1 className="text-4xl font-medium text-indigo-700 mb-10">Faça seu login</h1>
-      <article className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
         <fieldset className="flex flex-3 flex-col gap-2 max-w-120">
           <label htmlFor="content">E-mail</label>
           <input
@@ -84,9 +84,10 @@ export function LoginPage() {
 
         <Button
           disabled={shouldDisableSubmit()}
+          type="submit"
           size="3"
-          onClick={handleSubmit(onSubmit)}>Enviar</Button>
-      </article>
+          >Enviar</Button>
+      </form>
     </main>
   )
 }

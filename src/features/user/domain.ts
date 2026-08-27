@@ -1,5 +1,3 @@
-// import type {UserToSend} from "../../shared/types.ts";
-
 import type {User} from "../../shared/types.ts";
 
 export function userToSendFactory(): User {
@@ -9,4 +7,9 @@ export function userToSendFactory(): User {
    email: '',
    password: '',
  }
+}
+
+export function getIntIfPossible(value: string | number) {
+  const parsed = parseInt(value.toString());
+  return Number.isNaN(parsed) ? value : parsed;
 }

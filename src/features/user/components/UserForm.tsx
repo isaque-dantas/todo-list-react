@@ -7,6 +7,7 @@ import {Button} from "@radix-ui/themes";
 import {userToSendFactory} from "../domain.ts";
 import {useUserList} from "../api/queries.ts";
 import {Loading} from "../../../shared/components/Loading.tsx";
+import {getIntIfPossible} from "../domain.ts";
 
 interface Props {
   onSubmit: (data: User) => unknown;
@@ -14,8 +15,6 @@ interface Props {
 }
 
 export function UserForm({onSubmit, defaultValues}: Props) {
-  // const [users, setUsers] = useState<User[] | null>(null);
-  // useGet('users', setUsers, false);
   const {data: users, isLoading} = useUserList();
 
   const schema = z.object({
@@ -50,8 +49,8 @@ export function UserForm({onSubmit, defaultValues}: Props) {
 
     password: (
       z
-        .string()
-        .nonempty("Insira a senha.")
+        .union([z.string().nonempty("Insira a senha."), z.number()])
+        .transform(getIntIfPossible)
     )
   })
 

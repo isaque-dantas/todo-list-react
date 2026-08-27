@@ -3,12 +3,24 @@ import {isAuthenticated, logout} from "../services/auth-service.ts";
 import {Button, DropdownMenu} from "@radix-ui/themes";
 import {useNavigate} from "react-router";
 import {HamburgerMenuIcon} from "@radix-ui/react-icons";
+import {useQueryClient} from "@tanstack/react-query";
 
 export function Header() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   function handleClick() {
+    // queryClient.invalidateQueries({ queryKey: ITEM_QUERY_KEY.ALL })
+    // queryClient.invalidateQueries({ queryKey: GROUP_QUERY_KEY.ALL })
+    // queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.ALL })
+    // console.log('before', queryClient.getQueryData(GROUP_QUERY_KEY.LIST(true)));
+    // queryClient.invalidateQueries()
+    // console.log('after', queryClient.getQueryState(GROUP_QUERY_KEY.LIST(true)));
+    queryClient.clear()
+    console.log('invalidated!')
     logout();
+    //
+    // queryClient.invalidateQueries({queryKey: ["group"]})
     navigate("/login")
   }
 

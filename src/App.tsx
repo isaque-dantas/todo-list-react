@@ -14,6 +14,7 @@ import {AuthRequiredProvider} from "./shared/components/AuthRequiredProvider.tsx
 import {ProfilePage} from "./features/user/pages/ProfilePage.tsx";
 import {EditProfilePage} from "./features/user/pages/EditProfilePage.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const queryClient = new QueryClient()
 
@@ -21,6 +22,7 @@ export default function App() {
   return (
     <Theme>
       <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools/>
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<LoginPage/>}/>

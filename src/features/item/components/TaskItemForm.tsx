@@ -1,7 +1,6 @@
 import {Controller, type FieldErrors, useForm} from "react-hook-form";
 import type {TaskItemData} from "../../../shared/types.ts";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {taskItemFactory} from "../../../shared/domain.ts";
 import {z} from "zod";
 import {Button, Checkbox, Spinner} from "@radix-ui/themes";
 import {type SubmitEvent} from "react";
@@ -9,6 +8,7 @@ import {useNavigate, useSearchParams} from "react-router";
 import {useGroupList} from "../../group/api/queries.ts";
 import {useItemList} from "../api/queries.ts";
 import {Loading} from "../../../shared/components/Loading.tsx";
+import {taskItemFactory} from "../domain.ts";
 
 interface Props {
   onSubmit: (data: TaskItemData) => unknown;

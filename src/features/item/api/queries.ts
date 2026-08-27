@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
 import {taskItemEndpoints} from "./endpoints.ts";
+import {queryDefaultOptions} from "../../../shared/api.defaults.ts";
 
 export const ITEM_QUERY_KEY = {
   ALL: ["item"],
@@ -10,13 +11,15 @@ export const ITEM_QUERY_KEY = {
 export function useItemList() {
   return useQuery({
     queryFn: taskItemEndpoints.list,
-    queryKey: ITEM_QUERY_KEY.LIST
+    queryKey: ITEM_QUERY_KEY.LIST,
+    ...queryDefaultOptions
   })
 }
 
 export function useItemDetail(id: string) {
   return useQuery({
     queryFn: () => taskItemEndpoints.detail(id),
-    queryKey: ITEM_QUERY_KEY.DETAIL(id)
+    queryKey: ITEM_QUERY_KEY.DETAIL(id),
+    ...queryDefaultOptions
   })
 }

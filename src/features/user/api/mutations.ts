@@ -29,7 +29,7 @@ export function useUserRemove() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => userEndpoints.remove(),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: USER_QUERY_KEY.ALL })
+    mutationFn: (id: string) => userEndpoints.remove(id),
+    onSuccess: () => queryClient.clear()
   })
 }
